@@ -11,6 +11,7 @@ import {
   updateSelectedSection,
   updateSection,
   getSelectedSectionState,
+  addCheckboxListener,
 } from './state_helper.js';
 
 const state = createState();
@@ -35,7 +36,84 @@ function cardEventListener() {
   });
 }
 
-function borderEventListener() {}
+function borderEventListener() {
+  // Border type
+  addChangeListener('borderType', (value) => {
+    updateSelectedSection({ border: { type: value } });
+  });
+
+  // Border width
+  addInputListener('borderWidth', (value) => {
+    updateSelectedSection({ border: { width: parseInt(value) } });
+  });
+
+  // Border color
+  addChangeListener('borderColor', (value) => {
+    updateSelectedSection({ border: { color: value } });
+  });
+
+  // Border radius
+  addInputListener('borderRadius', (value) => {
+    updateSelectedSection({ border: { radius: parseInt(value) } });
+  });
+
+  // Border sides
+  ['top', 'right', 'bottom', 'left'].forEach(side => {
+    addChangeListener(side, (isChecked) => {
+      const currentState = getSelectedSectionState();
+      const newBorderState = { 
+        ...currentState.border, 
+        [side]: isChecked 
+      };
+      updateSelectedSection({ border: newBorderState });
+    });
+  });
+
+
+  // Shadow settings
+  addClickListener('shadowEnabled', () => {
+    const currentState = getSelectedSectionState();
+    const newShadowState = { 
+      ...currentState.shadow, 
+      enabled: currentState.shadow?.enabled === undefined ? true : !currentState.shadow.enabled 
+    };
+    updateSelectedSection({ shadow: newShadowState });
+  });
+
+  addClickListener('shadowInset', () => {
+    const currentState = getSelectedSectionState();
+    const newShadowState = { 
+      ...currentState.shadow, 
+      inset: currentState.shadow?.inset === undefined ? true : !currentState.shadow.inset 
+    };
+    updateSelectedSection({ shadow: newShadowState });
+  });
+
+  addInputListener('shadowRight', (value) => {
+    updateSelectedSection({ shadow: { right: parseInt(value) } });
+  });
+
+  addInputListener('shadowDown', (value) => {
+    updateSelectedSection({ shadow: { down: parseInt(value) } });
+  });
+
+  addInputListener('shadowSpread', (value) => {
+    updateSelectedSection({ shadow: { spread: parseInt(value) } });
+  });
+
+  addInputListener('shadowBlur', (value) => {
+    updateSelectedSection({ shadow: { blur: parseInt(value) } });
+  });
+
+  addInputListener('shadowOpacity', (value) => {
+    updateSelectedSection({ shadow: { opacity: parseInt(value) } });
+  });
+
+  addChangeListener('shadowColor', (value) => {
+    updateSelectedSection({ shadow: { color: value } });
+  });
+}
+
 
 function contentEventListener() {
   function toggleContentSettings() {

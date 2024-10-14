@@ -68,6 +68,18 @@ export function addClickListener(elementId, updateFn) {
   }
 }
 
+export function addCheckboxListener(name, updateFn) {
+  const checkboxes = document.querySelectorAll(`input[type="checkbox"][name="${name}"]`);
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', () => {
+      const value = checkbox.value;
+      const isChecked = checkbox.checked;
+      updateFn(value, isChecked);
+      dispatchStateChangeEvent();
+    });
+  });
+}
+
 // Logging functions
 function logStateChange(key, value) {
   console.log(`State changed - ${key}:`, value, state.getState());
