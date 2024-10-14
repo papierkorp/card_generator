@@ -1,0 +1,45 @@
+<div class="bg-white p-4 rounded-lg shadow-sm">
+  <h3 class="text-lg font-semibold mb-4">Card Dimensions</h3>
+  <div class="flex space-x-4 mb-4">
+    <div class="flex-1">
+      <div class="flex justify-between items-center mb-1">
+        <label for="cardWidth" class="text-sm font-medium text-gray-700">Width</label>
+        <div class="flex items-center">
+          <span id="cardWidthValue" class="text-sm text-gray-500">400</span>
+          <span class="text-sm text-gray-500 ml-1">px</span>
+        </div>
+      </div>
+      <input type="range" id="cardWidth" min="20" max="2048" value="400" class="w-full accent-lime-400" />
+    </div>
+    <div class="flex-1">
+      <div class="flex justify-between items-center mb-1">
+        <label for="cardHeight" class="text-sm font-medium text-gray-700">Height</label>
+        <div class="flex items-center">
+          <span id="cardHeightValue" class="text-sm text-gray-500">600</span>
+          <span class="text-sm text-gray-500 ml-1">px</span>
+        </div>
+      </div>
+      <input type="range" id="cardHeight" min="20" max="2048" value="600" class="w-full accent-lime-400" />
+    </div>
+  </div>
+
+  <div>
+    <label for="contentSelector" class="block text-sm font-medium text-gray-700 mb-1">Select Content Area</label>
+    <div class="flex items-center">
+      <select id="contentSelector" class="w-full p-2 border rounded">
+        <option value="card">Entire Card</option>
+        <option value="top">Top Edge</option>
+        <option value="right">Right Edge</option>
+        <option value="bottom">Bottom Edge</option>
+        <option value="left">Left Edge</option>
+        <option value="middle1">Middle Section 1</option>
+        <option value="middle2">Middle Section 2</option>
+        <option value="middle3">Middle Section 3</option>
+        <option value="middle4">Middle Section 4</option>
+        <option value="middle5">Middle Section 5</option>
+        <option value="middle6">Middle Section 6</option>
+        <option value="middle7">Middle Section 7</option>
+      </select>
+    </div>
+  </div>
+</div>
