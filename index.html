@@ -45,14 +45,19 @@
           </div>
           <div>
             <h2 class="text-xl font-semibold mb-4">HTML Output</h2>
-            <pre id="htmlOutput" class="bg-gray-100 p-4 rounded overflow-x-auto text-sm" style="max-height: 200px"></pre>
+            <pre
+              id="htmlOutput"
+              class="bg-gray-100 p-4 rounded overflow-x-auto text-sm"
+              style="max-height: 200px"
+            ></pre>
           </div>
           <div id="staticPreviewContainer"></div>
         </div>
 
-        <!-- Right Column (Border Settings) -->
+        <!-- Right Column (Border Settings and Help) -->
         <div class="space-y-8">
           <div id="borderSettings"></div>
+          <div id="helpSection"></div>
         </div>
       </div>
     </div>
@@ -74,6 +79,7 @@
       fetchComponent('content_settings.html', 'contentSettings');
       fetchComponent('text_settings.html', 'textSettings');
       fetchComponent('border_settings.html', 'borderSettings');
+      fetchComponent('help.html', 'helpSection');
     </script>
 
     <!-- JavaScript files -->
