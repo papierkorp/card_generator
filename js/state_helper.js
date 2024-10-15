@@ -1,5 +1,3 @@
-// state_helper.js
-
 let state;
 
 export function initializeHelpers(stateObject) {
@@ -12,25 +10,21 @@ function dispatchStateChangeEvent() {
 }
 
 // Helper functions for state updates
-export function updateDimensions(updates) {
-  state.updateDimensions(updates);
-  logStateChange('dimensions', updates);
+export function updateCardDimensions(updates) {
+  state.updateCardDimensions(updates);
 }
 
 export function setSelectedSection(sectionName) {
   state.setSelectedSection(sectionName);
-  logStateChange('selectedSection', sectionName);
 }
 
 export function updateSelectedSection(updates) {
   const selectedSection = state.getSelectedSection();
   state.updateSection(selectedSection, updates);
-  logStateChange(selectedSection, updates);
 }
 
 export function updateSection(sectionName, updates) {
   state.updateSection(sectionName, updates);
-  logStateChange(sectionName, updates);
 }
 
 // Helper functions for event listeners
@@ -70,7 +64,7 @@ export function addClickListener(elementId, updateFn) {
 
 export function addCheckboxListener(name, updateFn) {
   const checkboxes = document.querySelectorAll(`input[type="checkbox"][name="${name}"]`);
-  checkboxes.forEach(checkbox => {
+  checkboxes.forEach((checkbox) => {
     checkbox.addEventListener('change', () => {
       const value = checkbox.value;
       const isChecked = checkbox.checked;
@@ -80,13 +74,7 @@ export function addCheckboxListener(name, updateFn) {
   });
 }
 
-// Logging functions
-function logStateChange(key, value) {
-  console.log(`State changed - ${key}:`, value, state.getState());
-}
-
-// New helper function to update element value in HTML
-export function updateElementValue(elementId, value) {
+function updateElementValue(elementId, value) {
   const element = document.getElementById(elementId);
   if (element) {
     if (element.tagName === 'INPUT' || element.tagName === 'SELECT' || element.tagName === 'TEXTAREA') {
@@ -94,9 +82,9 @@ export function updateElementValue(elementId, value) {
     } else {
       element.textContent = value;
     }
-    logStateChange(elementId, value);
   } else {
-    console.warn(`Element with id '${elementId}' not found.`);
+    consol;
+    e.warn(`Element with id '${elementId}' not found.`);
   }
 }
 
@@ -108,12 +96,6 @@ export function getDefaultContent(section) {
     bottom: 'Bottom Edge Content',
     left: 'Left Edge Content',
     middle1: 'Middle Content 1',
-    middle2: 'Middle Content 2',
-    middle3: 'Middle Content 3',
-    middle4: 'Middle Content 4',
-    middle5: 'Middle Content 5',
-    middle6: 'Middle Content 6',
-    middle7: 'Middle Content 7',
   };
   return defaultContents[section] || '';
 }
