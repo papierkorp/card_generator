@@ -3,86 +3,115 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Card Generator</title>
+    <title>Test</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      #cardPreviewContainer {
-        height: 70vh;
-        position: relative;
-        overflow: hidden;
-      }
-    </style>
   </head>
+
   <body class="bg-gray-100">
     <div class="container mx-auto px-4 py-8">
       <h1 class="text-3xl font-bold mb-8 text-center">Card Generator</h1>
-
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div class="grid grid-cols1 md:grid-cols-4 gap-8">
+        <!----------------------------->
         <!-- Left Column -->
-        <div class="space-y-8">
+        <!----------------------------->
+        <div class="bg-red-500 h-64">
           <div id="contentSettings"></div>
           <div id="textSettings"></div>
         </div>
+        <!-- end left -->
 
-        <!-- Middle Columns (Card Settings and Preview) -->
-        <div class="md:col-span-2 space-y-8">
-          <div id="cardSettings" class="bg-white p-4 rounded-lg shadow-sm"></div>
-          <div>
-            <h2 class="text-xl font-semibold mb-4">Card Preview</h2>
-            <div id="cardPreviewContainer" class="border border-gray-300 p-4">
-              <div id="cardPreview" class="absolute">
-                <div id="topEdge" class="border-b p-2">Top Edge Content</div>
-                <div class="flex h-full">
-                  <div id="leftEdge" class="border-r p-2 writing-vertical-lr">Left Edge Content</div>
-                  <div id="middleContentContainer" class="flex-1 overflow-auto flex flex-col">
-                    <div id="middleContent-1" class="p-2 flex-grow">Middle Content 1</div>
-                  </div>
-                  <div id="rightEdge" class="border-l p-2 writing-vertical-rl">Right Edge Content</div>
-                </div>
-                <div id="bottomEdge" class="border-t p-2">Bottom Edge Content</div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <h2 class="text-xl font-semibold mb-4">HTML Output</h2>
-            <pre
-              id="htmlOutput"
-              class="bg-gray-100 p-4 rounded overflow-x-auto text-sm"
-              style="max-height: 200px"
-            ></pre>
-          </div>
-          <div id="staticPreviewContainer"></div>
-        </div>
+        <!----------------------------->
+        <!-- Middle Column -->
+        <!----------------------------->
 
-        <!-- Right Column (Border Settings and Help) -->
-        <div class="space-y-8">
-          <div id="borderSettings"></div>
-          <div id="helpSection"></div>
+        <div class="md:col-span-2 bg-green-500 h-64">
+          <div id="cardSettings"></div>
+          <div id="previewSettings"></div>
+          <div id="htmlOutputSettings"></div>
         </div>
+        <!-- end middle -->
+
+        <!----------------------------->
+        <!-- Right Column -->
+        <!----------------------------->
+
+        <div class="bg-blue-500 h-64"></div>
+        <!-- end right -->
+      </div>
+      <!-- end grid -->
+    </div>
+    <!-- end container -->
+
+    <select id="selectSection">
+      <option value="card">Card</option>
+      <option value="top">Top</option>
+      <option value="bottom">Bottom</option>
+      <option value="left">Left</option>
+      <option value="right">Right</option>
+      <option value="middle">Middle</option>
+    </select>
+
+    <hr />
+
+    <div>
+      <div>
+        <label for="sliderWidth">Section Width</label>
+        <input type="range" id="sliderWidth" min="10" max="2048" value="500" />
+        <span id="sliderWidthValue">500</span>
+        <span>px</span>
+      </div>
+
+      <div>
+        <label for="sliderHeight">Section Height</label>
+        <input type="range" id="sliderHeight" min="10" max="2048" value="500" />
+        <span id="sliderHeightValue">500</span>
+        <span>px</span>
+      </div>
+
+      <hr />
+
+      <div>
+        <label for="colorPicker">Background Color</label>
+        <input type="color" id="colorPicker" value="#0000ff" />
+      </div>
+
+      <hr />
+
+      <div>
+        <label for="textArea">Preview Text</label>
+        <textarea id="textArea" rows="3" cols="30">Hello, World!</textarea>
+      </div>
+
+      <hr />
+
+      <div>
+        <button id="resetButton">Reset</button>
+      </div>
+
+      <hr />
+
+      <div>
+        <label for="boldCheckbox">Bold Text</label>
+        <input type="checkbox" id="boldCheckbox" />
       </div>
     </div>
 
-    <script>
-      // Function to fetch and insert HTML components
-      async function fetchComponent(url, targetId) {
-        try {
-          const response = await fetch(url);
-          const html = await response.text();
-          document.getElementById(targetId).innerHTML = html;
-        } catch (error) {
-          console.error('Error fetching component:', error);
-        }
-      }
+    <hr />
+    <hr />
 
-      // Fetch and insert components
-      fetchComponent('card_settings.html', 'cardSettings');
-      fetchComponent('content_settings.html', 'contentSettings');
-      fetchComponent('text_settings.html', 'textSettings');
-      fetchComponent('border_settings.html', 'borderSettings');
-      fetchComponent('help.html', 'helpSection');
-    </script>
+    <div id="previewContainer" style="width: 100%; height: 70vh; overflow: hidden">
+      <div id="preview"></div>
+    </div>
 
-    <!-- JavaScript files -->
-    <script type="module" src="js/main.js"></script>
+    <script></script>
   </body>
 </html>
+
+<!-- 
+state update
+  => main.js - initialize - eventlistener
+html value update
+  => main.js - updateUIElements
+htmlOutput + preview
+  => generateHTML.js - generateHTML 
+-->

@@ -1,0 +1,48 @@
+<div class="p-4 border rounded-lg shadow-sm bg-white">
+  <h3 class="text-lg font-semibold mb-4">Text Settings</h3>
+
+  <div class="mb-4">
+    <div class="flex justify-between items-center mb-1">
+      <label for="fontSize" class="text-sm font-medium text-gray-700">Font Size</label>
+      <span id="fontSizeValue" class="text-sm text-gray-500">16px</span>
+    </div>
+    <input type="range" id="fontSize" min="8" max="72" value="16" class="w-full accent-lime-400" />
+  </div>
+
+  <div class="mb-4">
+    <label for="fontFamily" class="block text-sm font-medium text-gray-700 mb-1">Font Family</label>
+    <select id="fontFamily" class="w-full p-2 border rounded">
+      <option value="Arial">Arial</option>
+      <option value="Helvetica">Helvetica</option>
+      <option value="Times New Roman">Times New Roman</option>
+      <option value="Georgia">Georgia</option>
+      <option value="Courier New">Courier New</option>
+      <option value="Verdana">Verdana</option>
+    </select>
+  </div>
+
+  <div class="mb-4">
+    <label for="textColor" class="block text-sm font-medium text-gray-700 mb-1">Text Color</label>
+    <input type="color" id="textColor" value="#000000" class="w-full" />
+  </div>
+
+  <div class="mb-4">
+    <label class="block text-sm font-medium text-gray-700 mb-1">Text Alignment</label>
+    <div class="flex space-x-4">
+      <button class="p-2 border rounded" id="alignLeft">Left</button>
+      <button class="p-2 border rounded" id="alignCenter">Center</button>
+      <button class="p-2 border rounded" id="alignRight">Right</button>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <label class="block text-sm font-medium text-gray-700 mb-1">Text Formatting</label>
+    <div class="flex flex-wrap gap-4">
+      <button class="p-2 border rounded font-bold" id="boldText">Bold</button>
+      <button class="p-2 border rounded italic" id="italicText">Italic</button>
+      <button class="p-2 border rounded underline" id="underlineText">Underline</button>
+      <button class="p-2 border rounded line-through" id="strikethroughText">Strikethrough</button>
+      <button class="p-2 border rounded bg-lime-400" id="highlightText">Highlight</button>
+    </div>
+  </div>
+</div>

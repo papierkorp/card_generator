@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Card Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      #cardPreviewContainer {
+        height: 70vh;
+        position: relative;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+      <h1 class="text-3xl font-bold mb-8 text-center">Card Generator</h1>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <!-- Left Column -->
+        <div class="space-y-8">
+          <div id="contentSettings"></div>
+          <div id="textSettings"></div>
+        </div>
+
+        <!-- Middle Columns (Card Settings and Preview) -->
+        <div class="md:col-span-2 space-y-8">
+          <div id="cardSettings" class="bg-white p-4 rounded-lg shadow-sm"></div>
+          <div id="previewSettings"></div>
+          <div>
+            <h2 class="text-xl font-semibold mb-4">HTML Output</h2>
+            <pre
+              id="htmlOutput"
+              class="bg-gray-100 p-4 rounded overflow-x-auto text-sm"
+              style="max-height: 200px"
+            ></pre>
+          </div>
+          <div id="staticPreviewContainer"></div>
+        </div>
+
+        <!-- Right Column (Border Settings and Help) -->
+        <div class="space-y-8">
+          <div id="borderSettings"></div>
+          <div id="helpSection"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Function to fetch and insert HTML components
+      async function fetchComponent(url, targetId) {
+        try {
+          const response = await fetch(url);
+          const html = await response.text();
+          document.getElementById(targetId).innerHTML = html;
+        } catch (error) {
+          console.error('Error fetching component:', error);
+        }
+      }
+
+      // Fetch and insert components
+      fetchComponent('card_settings.html', 'cardSettings');
+      fetchComponent('content_settings.html', 'contentSettings');
+      fetchComponent('text_settings.html', 'textSettings');
+      fetchComponent('border_settings.html', 'borderSettings');
+      fetchComponent('help.html', 'helpSection');
+      fetchComponent('preview_settings.html', 'previewSettings');
+    </script>
+
+    <!-- JavaScript files -->
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
