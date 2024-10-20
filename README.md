@@ -31,3 +31,26 @@ these are the inital requirements i set myself:
       - inset
       - color
 - separate the different parts so they are more distingushable
+
+
+
+
+1) initalize
+=> get sectionSelect and add addEventListener
+  - update state.selectedSection
+  - generateHTML
+  - updateUIElements
+=> resetButton
+=> go through allElements and add addEventListener
+  - update state var for selectedSection
+  - generateHTML
+  - updateUIElements
+
+2) generateHTML
+=> getElementById(previewSettings) and set innerHTML
+=> for Each section (card/top/bottom...) generate a new DIV with and append if there is content in the TextArea
+
+3) update UI Elements
+=> go through allElements
+  - update HTML Input based on current state
+  - update HTML label for Input based on current state

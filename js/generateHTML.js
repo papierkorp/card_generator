@@ -1,3 +1,5 @@
+import { state } from './state.js'
+
 function createSectionElement(section, sectionName) {
   const element = document.createElement('div');
   element.style.backgroundColor = section.style.backgroundColor;
@@ -23,8 +25,8 @@ function createSectionElement(section, sectionName) {
   return element;
 }
 
-function generateHTML() {
-  const preview = document.getElementById('preview');
+export function generateHTML() {
+  const preview = document.getElementById('previewSettings');
   const card = createSectionElement(state.sections.card, 'card');
   card.style.position = 'relative';
   card.style.width = state.sections.card.dimensions.width + 'px';
@@ -78,31 +80,31 @@ function generateHTML() {
   preview.innerHTML = '';
   preview.appendChild(card);
 
-  scalePreview();
+  // scalePreview();
 }
 
-function scalePreview() {
-  const previewContainer = document.getElementById('previewContainer');
-  const preview = document.getElementById('preview');
-  const card = preview.firstChild;
+// function scalePreview() {
+//   const previewContainer = document.getElementById('previewContainer');
+//   const preview = document.getElementById('preview');
+//   const card = preview.firstChild;
 
-  if (!previewContainer || !preview || !card) return;
+//   if (!previewContainer || !preview || !card) return;
 
-  const containerWidth = previewContainer.clientWidth;
-  const containerHeight = previewContainer.clientHeight;
-  const cardWidth = parseInt(state.sections.card.dimensions.width);
-  const cardHeight = parseInt(state.sections.card.dimensions.height);
-  const scaleX = containerWidth / cardWidth;
-  const scaleY = containerHeight / cardHeight;
-  const scale = Math.min(scaleX, scaleY, 1); // Don't scale up, only down if necessary
+//   const containerWidth = previewContainer.clientWidth;
+//   const containerHeight = previewContainer.clientHeight;
+//   const cardWidth = parseInt(state.sections.card.dimensions.width);
+//   const cardHeight = parseInt(state.sections.card.dimensions.height);
+//   const scaleX = containerWidth / cardWidth;
+//   const scaleY = containerHeight / cardHeight;
+//   const scale = Math.min(scaleX, scaleY, 1); // Don't scale up, only down if necessary
 
-  card.style.transform = `scale(${scale})`;
-  card.style.transformOrigin = 'top left';
+//   card.style.transform = `scale(${scale})`;
+//   card.style.transformOrigin = 'top left';
 
-  const translateX = (containerWidth - cardWidth * scale) / 2;
-  const translateY = (containerHeight - cardHeight * scale) / 2;
-  preview.style.position = 'relative';
-  preview.style.width = `${cardWidth}px`;
-  preview.style.height = `${cardHeight}px`;
-  preview.style.transform = `translate(${translateX}px, ${translateY}px)`;
-}
+//   const translateX = (containerWidth - cardWidth * scale) / 2;
+//   const translateY = (containerHeight - cardHeight * scale) / 2;
+//   preview.style.position = 'relative';
+//   preview.style.width = `${cardWidth}px`;
+//   preview.style.height = `${cardHeight}px`;
+//   preview.style.transform = `translate(${translateX}px, ${translateY}px)`;
+// }

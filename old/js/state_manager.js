@@ -45,6 +45,7 @@ function cardEventListener() {
   });
 }
 
+
 function contentEventListener() {
   addInputListener('sectionHeightSlider', (value) => {
     updateSelectedSection({ dimensions: { height: parseInt(value) } });

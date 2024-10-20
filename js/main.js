@@ -1,7 +1,10 @@
+import { state, resetState} from './state.js'
+import {generateHTML} from './generateHTML.js'
+
 const allElements = [
-  { elementID: 'sliderHeight', eventType: 'input', inputType: 'range', stateKey: ['dimensions', 'height'] },
-  { elementID: 'sliderWidth', eventType: 'input', inputType: 'range', stateKey: ['dimensions', 'width'] },
-  { elementID: 'colorPicker', eventType: 'input', inputType: 'color', stateKey: ['style', 'backgroundColor'] },
+  { elementID: 'heightSlider', eventType: 'input', inputType: 'range', stateKey: ['dimensions', 'height'] },
+  { elementID: 'widthSlider', eventType: 'input', inputType: 'range', stateKey: ['dimensions', 'width'] },
+  { elementID: 'bgColor', eventType: 'input', inputType: 'color', stateKey: ['style', 'backgroundColor'] },
   {
     elementID: 'textArea',
     eventType: 'input',
@@ -17,7 +20,7 @@ const allElements = [
 ];
 
 function initialize() {
-  const selectSection = document.getElementById('selectSection');
+  const selectSection = document.getElementById('sectionSelect');
   selectSection.addEventListener('change', function () {
     state.selectedSection = this.value;
     console.log('changed selectSection to: ', this.value);
@@ -84,10 +87,16 @@ function updateUIElements() {
       elementValue.textContent = value;
     }
 
-    if (elem.elementID === 'textArea') {
+    if (elem.inputType === 'textarea') {
       element.disabled = state.selectedSection === 'card';
     }
   }
 }
 
+console.log("init")
 initialize();
+
+document.addEventListener('DOMContentLoaded', () => {
+  console.log("init")
+  initialize();
+});

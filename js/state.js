@@ -70,10 +70,10 @@ const stateTemplate = {
   },
 };
 
-function resetState() {
+export function resetState() {
   state = JSON.parse(JSON.stringify(stateTemplate));
   updateUIElements();
   generateHTML();
 }
 
-let state = JSON.parse(JSON.stringify(stateTemplate));
+export let state = JSON.parse(JSON.stringify(stateTemplate));

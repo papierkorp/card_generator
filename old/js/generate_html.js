@@ -3,7 +3,7 @@ export function generateHTML(state) {
 
   function generateSectionStyle(section, isCard = false) {
     const { style, border, shadow, dimensions, text } = section;
-
+    
     const styles = [
       style.backgroundColor && `background-color: ${style.backgroundColor};`,
       !isCard && border.top && `border-top: ${border.width}px ${border.type} ${border.color};`,
@@ -11,8 +11,7 @@ export function generateHTML(state) {
       !isCard && border.bottom && `border-bottom: ${border.width}px ${border.type} ${border.color};`,
       !isCard && border.left && `border-left: ${border.width}px ${border.type} ${border.color};`,
       !isCard && border.radius && `border-radius: ${border.radius}px;`,
-      shadow.enabled &&
-        `box-shadow: ${shadow.inset ? 'inset ' : ''}${shadow.right}px ${shadow.down}px ${shadow.blur}px ${shadow.spread}px rgba(${parseInt(shadow.color.slice(1, 3), 16)}, ${parseInt(shadow.color.slice(3, 5), 16)}, ${parseInt(shadow.color.slice(5, 7), 16)}, ${shadow.opacity / 100});`,
+      shadow.enabled && `box-shadow: ${shadow.inset ? 'inset ' : ''}${shadow.right}px ${shadow.down}px ${shadow.blur}px ${shadow.spread}px rgba(${parseInt(shadow.color.slice(1, 3), 16)}, ${parseInt(shadow.color.slice(3, 5), 16)}, ${parseInt(shadow.color.slice(5, 7), 16)}, ${shadow.opacity / 100});`,
       dimensions.width !== 'auto' && `width: ${dimensions.width}px;`,
       dimensions.height !== 'auto' && `height: ${dimensions.height}px;`,
       !isCard && `font-size: ${text.fontSize}px;`,
@@ -23,16 +22,14 @@ export function generateHTML(state) {
       !isCard && text.italic && 'font-style: italic;',
       !isCard && text.underline && 'text-decoration: underline;',
       !isCard && text.strikethrough && 'text-decoration: line-through;',
-      !isCard && text.highlight && 'background-color: yellow;',
-    ]
-      .filter(Boolean)
-      .join(' ');
+      !isCard && text.highlight && 'background-color: yellow;'
+    ].filter(Boolean).join(' ');
 
     return styles;
   }
 
-  function getContentHtml(content) {
-    return content && content.value ? content.value : '';
+  function getContentHtml(section) {
+    return section.content && section.content.value ? section.content.value : '';
   }
 
   const cardSection = sections.card;
@@ -47,47 +44,32 @@ export function generateHTML(state) {
 
   const html = `
 <div id="cardPreview" style="${generateSectionStyle(cardSection, true)} position: relative;">
-  ${
-    topSection.content && topSection.content.value
-      ? `<div id="topEdge" style="${generateSectionStyle(topSection)} width: 100%;">
-      ${getContentHtml(topSection.content)}
-    </div>`
-      : ''
-  }
+  ${topSection.content ? 
+    `<div id="topEdge" style="${generateSectionStyle(topSection)} width: 100%;">
+      ${getContentHtml(topSection)}
+    </div>` : ''}
   <div style="display: flex; position: absolute; top: ${topSection.dimensions.height || 0}px; bottom: ${bottomSection.dimensions.height || 0}px; left: 0; right: 0;">
-    ${
-      leftSection.content && leftSection.content.value
-        ? `<div id="leftEdge" style="${generateSectionStyle(leftSection)} writing-mode: vertical-lr; display: flex; align-items: center; height: 100%;">
-        ${getContentHtml(leftSection.content)}
-      </div>`
-        : ''
-    }
+    ${leftSection.content ? 
+      `<div id="leftEdge" style="${generateSectionStyle(leftSection)} writing-mode: vertical-lr; display: flex; align-items: center; height: 100%;">
+        ${getContentHtml(leftSection)}
+      </div>` : ''}
     <div id="middleContentContainer" style="flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column;">
-      ${middleSections
-        .map((section, index) =>
-          section.content && section.content.value
-            ? `<div id="middleContent-${index + 1}" style="${generateSectionStyle(section)}">
-            ${getContentHtml(section.content)}
-          </div>`
-            : ''
-        )
-        .join('\n')}
+      ${middleSections.map((section, index) => 
+        section.content ? 
+          `<div id="middleContent-${index + 1}" style="${generateSectionStyle(section)}">
+            ${getContentHtml(section)}
+          </div>` : ''
+      ).join('\n')}
     </div>
-    ${
-      rightSection.content && rightSection.content.value
-        ? `<div id="rightEdge" style="${generateSectionStyle(rightSection)} writing-mode: vertical-rl; display: flex; align-items: center; height: 100%;">
-        ${getContentHtml(rightSection.content)}
-      </div>`
-        : ''
-    }
+    ${rightSection.content ? 
+      `<div id="rightEdge" style="${generateSectionStyle(rightSection)} writing-mode: vertical-rl; display: flex; align-items: center; height: 100%;">
+        ${getContentHtml(rightSection)}
+      </div>` : ''}
   </div>
-  ${
-    bottomSection.content && bottomSection.content.value
-      ? `<div id="bottomEdge" style="${generateSectionStyle(bottomSection)} position: absolute; bottom: 0; width: 100%;">
-      ${getContentHtml(bottomSection.content)}
-    </div>`
-      : ''
-  }
+  ${bottomSection.content ? 
+    `<div id="bottomEdge" style="${generateSectionStyle(bottomSection)} position: absolute; bottom: 0; width: 100%;">
+      ${getContentHtml(bottomSection)}
+    </div>` : ''}
 </div>`;
 
   return html.replace(/^\s+|\s+$/gm, ''); // Remove leading/trailing whitespace from each line
