@@ -1,4 +1,4 @@
-import { state } from './state.js'
+import { state } from './state.js';
 
 function createSectionElement(section, sectionName) {
   const element = document.createElement('div');
@@ -9,7 +9,7 @@ function createSectionElement(section, sectionName) {
   element.style.overflow = 'hidden';
   element.style.position = 'absolute';
 
-  const textElement = document.createElement('p');
+  // const textElement = document.createElement('p');
   element.style.margin = '0';
   element.style.padding = '5px';
   element.style.textAlign = 'center';
@@ -21,7 +21,7 @@ function createSectionElement(section, sectionName) {
     element.textContent = section.style.textStyle.content;
   }
 
-  element.appendChild(textElement);
+  // element.appendChild(textElement);
   return element;
 }
 
