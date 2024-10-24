@@ -2,21 +2,23 @@ import { state, resetState} from './state.js'
 import {generateHTML} from './generateHTML.js'
 
 const allElements = [
-  { elementID: 'heightSlider', eventType: 'input', inputType: 'range', stateKey: ['dimensions', 'height'] },
-  { elementID: 'widthSlider', eventType: 'input', inputType: 'range', stateKey: ['dimensions', 'width'] },
-  { elementID: 'bgColor', eventType: 'input', inputType: 'color', stateKey: ['style', 'backgroundColor'] },
+  { elementID: 'heightSlider', eventType: 'input', inputType: 'range', stateKey: ['contentSettings', 'height'] },
+  { elementID: 'widthSlider', eventType: 'input', inputType: 'range', stateKey: ['contentSettings', 'width'] },
+  { elementID: 'bgColor', eventType: 'input', inputType: 'color', stateKey: ['contentSettings', 'backgroundColor'] },
   {
     elementID: 'textArea',
     eventType: 'input',
     inputType: 'textarea',
-    stateKey: ['style', 'textStyle', 'content'],
+    stateKey: ['contentSettings', 'content'],
   },
   {
     elementID: 'boldCheckbox',
     eventType: 'change',
     inputType: 'checkbox',
-    stateKey: ['style', 'textStyle', 'bold'],
+    stateKey: ['textSettings', 'bold'],
   },
+  { elementID: 'fontSizeSlider', eventType: 'input', inputType: 'range', stateKey: ['textSettings', 'font-size'] },
+
 ];
 
 function initialize() {

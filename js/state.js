@@ -2,14 +2,18 @@ const stateTemplate = {
   selectedSection: 'card',
   sections: {
     card: {
-      dimensions: { width: '500', height: '500' },
-      style: {
+      contentSettings: {
+        width: '500',
+        height: '500',
         backgroundColor: '#00ff00',
-        textStyle: {
-          content: 'No text for card, use Middle instead!',
-          bold: false,
-          italic: false,
-        },
+      },
+      textSettings: {
+        content: 'No text for card, use Middle instead!',
+        bold: false,
+        italic: false,
+      },
+      borderSettings: {
+
       },
     },
     top: {
