@@ -1,23 +1,36 @@
-import { state } from './state.js';
+import { state } from "./state.js";
 
 function createSectionElement(section, sectionName) {
-  const element = document.createElement('div');
+  const element = document.createElement("div");
+  element.id = sectionName;
   element.style.backgroundColor = section.contentSettings.backgroundColor;
-  element.style.display = 'flex';
-  element.style.alignItems = 'center';
-  element.style.justifyContent = 'center';
-  element.style.overflow = 'hidden';
-  element.style.position = 'absolute';
+  element.style.display = "flex";
+  element.style.alignItems = "center";
+  element.style.justifyContent = "center";
+  element.style.overflow = "hidden";
+  element.style.position = "absolute";
 
-  // const textElement = document.createElement('p');
-  element.style.margin = '0';
-  element.style.padding = '5px';
-  element.style.textAlign = 'center';
-  element.style.wordWrap = 'break-word';
-  element.style.fontWeight = section.textSettings.bold ? 'bold' : '';
-  element.style.fontStyle = section.textSettings.italic ? 'italic' : '';
+  // const textElement = document.createElement("p");
+  element.style.margin = "0";
+  element.style.padding = "5px";
+  element.style.textAlign = "center";
+  element.style.wordWrap = "break-word";
+  element.style.fontWeight = section.textSettings.bold ? "bold" : "";
+  element.style.fontStyle = section.textSettings.italic ? "italic" : "";
+  element.style.textDecoration = section.textSettings.underline
+    ? "underline"
+    : "";
 
-  if (sectionName !== 'card') {
+  element.style.textDecoration = section.textSettings.strikethrough
+    ? "line-through"
+    : "";
+
+  element.style.fontSize = section.textSettings.fontsize + "px";
+
+  if (sectionName === "card") {
+    element.className =
+      "transform-gpu origin-top-left w-[500px] h-[500px] max-w-full max-h-full aspect-square";
+  } else {
     element.textContent = section.contentSettings.content;
   }
 
@@ -26,58 +39,59 @@ function createSectionElement(section, sectionName) {
 }
 
 export function generateHTML() {
-  const preview = document.getElementById('previewSettings');
-  const card = createSectionElement(state.sections.card, 'card');
-  card.style.position = 'relative';
-  card.style.width = state.sections.card.contentSettings.width + 'px';
-  card.style.height = state.sections.card.contentSettings.height + 'px';
+  console.log("state: ", state);
+  const preview = document.getElementById("previewSettings");
+  const card = createSectionElement(state.sections.card, "card");
+  card.style.position = "relative";
+  card.style.width = state.sections.card.contentSettings.width + "px";
+  card.style.height = state.sections.card.contentSettings.height + "px";
 
   if (state.sections.top.contentSettings.content) {
-    const top = createSectionElement(state.sections.top, 'top');
-    top.style.top = '0';
-    top.style.left = '0';
-    top.style.width = '100%';
-    top.style.height = state.sections.contentSettings.height + 'px';
+    const top = createSectionElement(state.sections.top, "top");
+    top.style.top = "0";
+    top.style.left = "0";
+    top.style.width = "100%";
+    top.style.height = state.sections.top.contentSettings.height + "px";
     card.appendChild(top);
   }
 
   if (state.sections.bottom.contentSettings.content) {
-    const bottom = createSectionElement(state.sections.bottom, 'bottom');
-    bottom.style.bottom = '0';
-    bottom.style.left = '0';
-    bottom.style.width = '100%';
-    bottom.style.height = state.sections.bottom.contentSettings.height + 'px';
+    const bottom = createSectionElement(state.sections.bottom, "bottom");
+    bottom.style.bottom = "0";
+    bottom.style.left = "0";
+    bottom.style.width = "100%";
+    bottom.style.height = state.sections.bottom.contentSettings.height + "px";
     card.appendChild(bottom);
   }
 
   if (state.sections.left.contentSettings.content) {
-    const left = createSectionElement(state.sections.left, 'left');
-    left.style.top = state.sections.top.contentSettings.height + 'px';
-    left.style.left = '0';
-    left.style.width = state.sections.left.contentSettings.width + 'px';
+    const left = createSectionElement(state.sections.left, "left");
+    left.style.top = state.sections.top.contentSettings.height + "px";
+    left.style.left = "0";
+    left.style.width = state.sections.left.contentSettings.width + "px";
     left.style.height = `calc(100% - ${parseInt(state.sections.top.contentSettings.height) + parseInt(state.sections.bottom.contentSettings.height)}px)`;
     card.appendChild(left);
   }
 
   if (state.sections.right.contentSettings.content) {
-    const right = createSectionElement(state.sections.right, 'right');
-    right.style.top = state.sections.top.contentSettings.height + 'px';
-    right.style.right = '0';
-    right.style.width = state.sections.right.contentSettings.width + 'px';
+    const right = createSectionElement(state.sections.right, "right");
+    right.style.top = state.sections.top.contentSettings.height + "px";
+    right.style.right = "0";
+    right.style.width = state.sections.right.contentSettings.width + "px";
     right.style.height = `calc(100% - ${parseInt(state.sections.top.contentSettings.height) + parseInt(state.sections.bottom.contentSettings.height)}px)`;
     card.appendChild(right);
   }
 
   if (state.sections.middle.contentSettings.content) {
-    const middle = createSectionElement(state.sections.middle, 'middle');
-    middle.style.top = state.sections.top.contentSettings.height + 'px';
-    middle.style.left = state.sections.left.contentSettings.width + 'px';
+    const middle = createSectionElement(state.sections.middle, "middle");
+    middle.style.top = state.sections.top.contentSettings.height + "px";
+    middle.style.left = state.sections.left.contentSettings.width + "px";
     middle.style.width = `calc(100% - ${parseInt(state.sections.left.contentSettings.width) + parseInt(state.sections.right.contentSettings.width)}px)`;
     middle.style.height = `calc(100% - ${parseInt(state.sections.top.contentSettings.height) + parseInt(state.sections.bottom.contentSettings.height)}px)`;
     card.appendChild(middle);
   }
 
-  preview.innerHTML = '';
+  preview.innerHTML = "";
   preview.appendChild(card);
 
   // scalePreview();

@@ -15,109 +15,131 @@
         <!-- Left Column -->
         <!----------------------------->
         <div id="leftColumn" class="flex flex-col space-y-4">
-          <div id="contentSettings" class="bg-green-500 min-h-28 p-4 rounded-lg shadow-sm">
+          <div
+            id="contentSettings"
+            class="bg-green-500 min-h-28 p-4 rounded-lg shadow-sm"
+          >
+            <h3 class="text-lg font-semibold mb-4">Content Settings</h3>
 
-<h3 class="text-lg font-semibold mb-4">Content Settings</h3>
+            <select id="sectionSelect">
+              <option value="card">Card</option>
+              <option value="top">Top</option>
+              <option value="bottom">Bottom</option>
+              <option value="left">Left</option>
+              <option value="right">Right</option>
+              <option value="middle">Middle</option>
+            </select>
 
-<select id="sectionSelect">
-  <option value="card">Card</option>
-  <option value="top">Top</option>
-  <option value="bottom">Bottom</option>
-  <option value="left">Left</option>
-  <option value="right">Right</option>
-  <option value="middle">Middle</option>
-</select>
+            <div>
+              <label for="widthSlider">Section Width</label>
+              <input
+                type="range"
+                id="widthSlider"
+                min="10"
+                max="2048"
+                value="500"
+              />
+              <span id="widthSliderValue">500</span>
+              <span>px</span>
+            </div>
 
-<div>
-    <label for="widthSlider">Section Width</label>
-    <input type="range" id="widthSlider" min="10" max="2048" value="500" />
-    <span id="widthSliderValue">500</span>
-    <span>px</span>
-</div>
+            <div>
+              <label for="heightSlider">Section Height</label>
+              <input
+                type="range"
+                id="heightSlider"
+                min="10"
+                max="2048"
+                value="500"
+              />
+              <span id="heightSliderValue">500</span>
+              <span>px</span>
+            </div>
 
-<div>
-    <label for="heightSlider">Section Height</label>
-    <input type="range" id="heightSlider" min="10" max="2048" value="500" />
-    <span id="heightSliderValue">500</span>
-    <span>px</span>
-</div>
+            <div>
+              <label for="bgColor">Background Color</label>
+              <input type="color" id="bgColor" value="#0000ff" />
+            </div>
 
-<div>
-    <label for="bgColor">Background Color</label>
-    <input type="color" id="bgColor" value="#0000ff" />
-</div>
+            <div>
+              <label for="textArea">Set Text</label>
+              <textarea id="textArea" rows="3" cols="30">
+Hello, World!</textarea
+              >
+            </div>
 
-<div>
-    <label for="textArea">Set Text</label>
-    <textarea id="textArea" rows="3" cols="30">Hello, World!</textarea>
-</div>
+            <div>
+              <button id="addMiddleButton">Add Middle</button>
+              <button id="deleteMiddleButton">Delete Middle</button>
+            </div>
 
-<div>
-    <button id="addMiddleButton">Add Middle</button>
-    <button id="deleteMiddleButton">Delete Middle</button>
-</div>
-
-<div>
-    <button id="resetButton">Reset</button>
-</div>
-
+            <div>
+              <button id="resetButton">Reset</button>
+            </div>
           </div>
-          <div id="textSettings" class="bg-red-600 min-h-28 p-4 rounded-lg shadow-sm">
+          <div
+            id="textSettings"
+            class="bg-red-600 min-h-28 p-4 rounded-lg shadow-sm"
+          >
+            <h3 class="text-lg font-semibold mb-4">Text Settings</h3>
 
-<h3 class="text-lg font-semibold mb-4">Text Settings</h3>
+            <div>
+              <label for="fontSizeSlider">Font Size</label>
+              <input
+                type="range"
+                id="fontSizeSlider"
+                min="1"
+                max="72"
+                value="16"
+              />
+              <span id="fontSizeSliderValue">16</span>
+              <span>px</span>
+            </div>
 
-<div>
-    <label for="fontSizeSlider">Font Size</label>
-    <input type="range" id="fontSizeSlider" min="1" max="72" value="16" />
-    <span id="fontSizeSliderValue">16</span>
-    <span>px</span>
-</div>
+            <div>
+              <label>Font Family</label>
+              <select id="fontSelect">
+                <option value="arial">Arial</option>
+                <option value="helvetica">Helvetica</option>
+                <option value="timesNewRoman">Times New Roman</option>
+                <option value="georgia">Georgia</option>
+                <option value="courierNew">Courier New</option>
+                <option value="verdana">Verdana</option>
+              </select>
+            </div>
 
-<div>
-    <label>Font Family</label>
-    <select id="fontSelect">
-        <option value="arial">Arial</option>
-        <option value="helvetica">Helvetica</option>
-        <option value="timesNewRoman">Times New Roman</option>
-        <option value="georgia">Georgia</option>
-        <option value="courierNew">Courier New</option>
-        <option value="verdana">Verdana</option>
-    </select>
-</div>
+            <div>
+              <label for="textColor">Text Color</label>
+              <input type="color" id="textColor" value="#0000ff" />
+            </div>
 
-<div>
-    <label for="textColor">Text Color</label>
-    <input type="color" id="textColor" value="#0000ff" />
-</div>
+            <div>
+              <label>Text Alignment</label>
+              <button id="leftAlignmentButton">Left</button>
+              <button id="rightAlignmentButton">Right</button>
+              <button id="centerAlignmentButton">Center</button>
+            </div>
 
-<div>
-    <label>Text Alignment</label>
-    <button id="leftAlignmentButton">Left</button>
-    <button id="rightAlignmentButton">Right</button>
-    <button id="centerAlignmentButton">Center</button>
-</div>
+            <label>Text Formatting</label>
 
+            <div>
+              <label for="boldCheckbox" class="font-bold">Bold Text</label>
+              <input type="checkbox" id="boldCheckbox" />
 
-    <label>Text Formatting</label>
+              <label for="italicCheckbox" class="italic">Italic</label>
+              <input type="checkbox" id="italicCheckbox" />
 
-<div>
-    <label for="boldCheckbox" class="font-bold">Bold Text</label>
-    <input type="checkbox" id="boldCheckbox" />
+              <label for="underlineCheckbox" class="underline">Underline</label>
+              <input type="checkbox" id="underlineCheckbox" />
 
-    <label for="italicCheckbox" class="italic">Italic</label>
-    <input type="checkbox" id="italicCheckbox" />
-
-    <label for="underlineCheckbox" class="underline">Underline</label>
-    <input type="checkbox" id="underlineCheckbox" />
-
-    <label for="strikethroughCheckbox" class="line-through">Strikethrough</label>
-    <input type="checkbox" id="strikethroughCheckbox" />
-
+              <label for="strikethroughCheckbox" class="line-through"
+                >Strikethrough</label
+              >
+              <input type="checkbox" id="strikethroughCheckbox" />
+              <!--
     <label for="highlightCheckbox" class="bg-lime-400">Highlight</label>
-    <input type="checkbox" id="highlightCheckbox" />
-</div>
-
-
+    <input type="checkbox" id="highlightCheckbox" /> -->
+            </div>
           </div>
         </div>
         <!-- end left -->
@@ -127,12 +149,23 @@
         <!----------------------------->
 
         <div id="middleColumn" class="md:col-span-2 flex flex-col space-y-4">
-          <div id="previewContainer" class="bg-green-600 p-4 rounded-lg shadow-sm overflow-hidden">
-          <h3 class="text-lg font-semibold mb-4">Preview</h3>
+          <div
+            id="previewContainer"
+            class="bg-green-600 p-4 rounded-lg shadow-sm overflow-hidden"
+          >
+            <h3 class="text-lg font-semibold mb-4">Preview</h3>
 
-            <div id="previewSettings" class="relative w-full aspect-square flex items-center justify-center"></div>
+            <div
+              id="previewSettings"
+              class="relative w-full aspect-square flex items-center justify-center"
+            ></div>
           </div>
-          <div id="htmlOutputSettings" class="bg-green-600 min-h-28 p-4 rounded-lg shadow-sm"><h3 class="text-lg font-semibold mb-4">HTML Output</h3></div>
+          <div
+            id="htmlOutputSettings"
+            class="bg-green-600 min-h-28 p-4 rounded-lg shadow-sm"
+          >
+            <h3 class="text-lg font-semibold mb-4">HTML Output</h3>
+          </div>
         </div>
         <!-- end middle -->
 
@@ -141,119 +174,169 @@
         <!----------------------------->
 
         <div id="rightColumn" class="flex flex-col space-y-4">
-          <div id="borderSettings" class="bg-blue-500 min-h-28 p-4 rounded-lg shadow-sm">
+          <div
+            id="borderSettings"
+            class="bg-blue-500 min-h-28 p-4 rounded-lg shadow-sm"
+          >
+            <h3 class="text-lg font-semibold mb-4">Border Settings</h3>
 
-<h3 class="text-lg font-semibold mb-4">Border Settings</h3>
+            <div>
+              <div>
+                <label>Border Sides</label>
+                <label for="topBorderCheckbox">Top Border</label>
+                <input type="checkbox" id="topBorderCheckbox" />
 
-<div>
-    <div>
-        <label>Border Sides</label>
-        <label for="topBorderCheckbox">Top Border</label>
-        <input type="checkbox" id="topBorderCheckbox" />
+                <label for="rightBorderCheckbox">Right Border</label>
+                <input type="checkbox" id="rightBorderCheckbox" />
 
-        <label for="rightBorderCheckbox">Right Border</label>
-        <input type="checkbox" id="rightBorderCheckbox" />
+                <label for="bottomBorderCheckbox">Bottom Border</label>
+                <input type="checkbox" id="bottomBorderCheckbox" />
 
-        <label for="bottomBorderCheckbox">Bottom Border</label>
-        <input type="checkbox" id="bottomBorderCheckbox" />
+                <label for="leftBorderCheckbox">Left Border</label>
+                <input type="checkbox" id="leftBorderCheckbox" />
+              </div>
 
-        <label for="leftBorderCheckbox">Left Border</label>
-        <input type="checkbox" id="leftBorderCheckbox" />
-    </div>
+              <div>
+                <label>Border Type</label>
+                <select id="borderTypeSelect">
+                  <option value="solid">Solid</option>
+                  <option value="dashed">Dashed</option>
+                  <option value="dotted">Dotted</option>
+                  <option value="double">Double</option>
+                  <option value="groove">Groove</option>
+                  <option value="ridge">Ridge</option>
+                  <option value="inset">Inset</option>
+                  <option value="outset">Outset</option>
+                </select>
+              </div>
 
-    <div>
-        <label>Border Type</label>
-        <select id="borderTypeSelect">
-            <option value="solid">Solid</option>
-            <option value="dashed">Dashed</option>
-            <option value="dotted">Dotted</option>
-            <option value="double">Double</option>
-            <option value="groove">Groove</option>
-            <option value="ridge">Ridge</option>
-            <option value="inset">Inset</option>
-            <option value="outset">Outset</option>
-        </select>
-    </div>
+              <div>
+                <label for="borderSizeSlider">Border Size</label>
+                <input
+                  type="range"
+                  id="borderSizeSlider"
+                  min="0"
+                  max="20"
+                  value="1"
+                />
+                <span id="borderSizeSliderValue">1</span>
+                <span>px</span>
+              </div>
 
-    <div>
-        <label for="borderSizeSlider">Border Size</label>
-        <input type="range" id="borderSizeSlider" min="0" max="20" value="1" />
-        <span id="borderSizeSliderValue">1</span>
-        <span>px</span>
-    </div>
+              <div>
+                <label for="borderRoundendCornersSlider"
+                  >Roundend Corners</label
+                >
+                <input
+                  type="range"
+                  id="borderRoundendCornersSlider"
+                  min="0"
+                  max="50"
+                  value="0"
+                />
+                <span id="borderRoundendCornersSliderValue">0</span>
+                <span>px</span>
+              </div>
 
+              <div>
+                <label for="borderColor">Border Color</label>
+                <input type="color" id="borderColor" value="#0000ff" />
+              </div>
+            </div>
 
-    <div>
-        <label for="borderRoundendCornersSlider">Roundend Corners</label>
-        <input type="range" id="borderRoundendCornersSlider" min="0" max="50" value="0" />
-        <span id="borderRoundendCornersSliderValue">0</span>
-        <span>px</span>
-    </div>
+            <div>
+              <label>Shadow Settings</label>
+              <div>
+                <label for="shadowCheckbox">Shadow</label>
+                <input type="checkbox" id="shadowCheckbox" />
 
-    <div>
-        <label for="borderColor">Border Color</label>
-        <input type="color" id="borderColor" value="#0000ff" />
-    </div>
-</div>
+                <label for="insetShadowCheckbox">Inset Shadow</label>
+                <input type="checkbox" id="insetShadowCheckbox" />
+              </div>
 
-<div>
-    <label>Shadow Settings</label>
-    <div>
-        <label for="shadowCheckbox">Shadow</label>
-        <input type="checkbox" id="shadowCheckbox" />
+              <div>
+                <label for="shadowShiftRightSlider">Shadow Shift Right</label>
+                <input
+                  type="range"
+                  id="shadowShiftRightSlider"
+                  min="-20"
+                  max="20"
+                  value="0"
+                />
+                <span id="shadowShiftRightSliderValue">0</span>
+                <span>px</span>
+              </div>
 
-        <label for="insetShadowCheckbox">Inset Shadow</label>
-        <input type="checkbox" id="insetShadowCheckbox" />
-    </div>
+              <div>
+                <label for="shadowShiftDownSlider">Shadow Shift Down</label>
+                <input
+                  type="range"
+                  id="shadowShiftDownSlider"
+                  min="-20"
+                  max="20"
+                  value="0"
+                />
+                <span id="shadowShiftDownSliderValue">0</span>
+                <span>px</span>
+              </div>
 
-    <div>
-        <label for="shadowShiftRightSlider">Shadow Shift Right</label>
-        <input type="range" id="shadowShiftRightSlider" min="-20" max="20" value="0" />
-        <span id="shadowShiftRightSliderValue">0</span>
-        <span>px</span>
-    </div>
+              <div>
+                <label for="shadowSpreadSlider">Shadow Spread</label>
+                <input
+                  type="range"
+                  id="shadowSpreadSlider"
+                  min="0"
+                  max="20"
+                  value="0"
+                />
+                <span id="shadowSpreadSliderValue">0</span>
+                <span>px</span>
+              </div>
 
-    <div>
-        <label for="shadowShiftDownSlider">Shadow Shift Down</label>
-        <input type="range" id="shadowShiftDownSlider" min="-20" max="20" value="0" />
-        <span id="shadowShiftDownSliderValue">0</span>
-        <span>px</span>
-    </div>
+              <div>
+                <label for="shadowBlurSlider">Shadow Blur</label>
+                <input
+                  type="range"
+                  id="shadowBlurSlider"
+                  min="0"
+                  max="20"
+                  value="0"
+                />
+                <span id="shadowBlurSliderValue">0</span>
+                <span>px</span>
+              </div>
 
-    <div>
-        <label for="shadowSpreadSlider">Shadow Spread</label>
-        <input type="range" id="shadowSpreadSlider" min="0" max="20" value="0" />
-        <span id="shadowSpreadSliderValue">0</span>
-        <span>px</span>
-    </div>
+              <div>
+                <label for="shadowOpacitySlider">Shadow Opacity</label>
+                <input
+                  type="range"
+                  id="shadowOpacitySlider"
+                  min="0"
+                  max="100"
+                  value="50"
+                />
+                <span id="shadowOpacitySliderValue">50</span>
+                <span>%</span>
+              </div>
 
-    <div>
-        <label for="shadowBlurSlider">Shadow Blur</label>
-        <input type="range" id="shadowBlurSlider" min="0" max="20" value="0" />
-        <span id="shadowBlurSliderValue">0</span>
-        <span>px</span>
-    </div>
-
-    <div>
-        <label for="shadowOpacitySlider">Shadow Opacity</label>
-        <input type="range" id="shadowOpacitySlider" min="0" max="100" value="50" />
-        <span id="shadowOpacitySliderValue">50</span>
-        <span>%</span>
-    </div>
-
-    <div>
-        <label for="shadowColor">Shadow Color</label>
-        <input type="color" id="shadowColor" value="#0000ff" />
-    </div>
-</div>
-
+              <div>
+                <label for="shadowColor">Shadow Color</label>
+                <input type="color" id="shadowColor" value="#0000ff" />
+              </div>
+            </div>
           </div>
-          <div id="helpSection" class="bg-blue-600 min-h-28 p-4 rounded-lg shadow-sm">
+          <div
+            id="helpSection"
+            class="bg-blue-600 min-h-28 p-4 rounded-lg shadow-sm"
+          >
+            <h3 class="text-lg font-semibold mb-4">Help</h3>
 
-<h3 class="text-lg font-semibold mb-4">Help</h3>
-
-You can use html Entities for example <code class="text-sm sm:text-base inline-flex text-left items-center space-x-4 bg-gray-800 text-white rounded-lg p-1">&amp;nbsp;</code> for empty spaces.
-
+            You can use html Entities for example
+            <code
+              class="text-sm sm:text-base inline-flex text-left items-center space-x-4 bg-gray-800 text-white rounded-lg p-1"
+              >&amp;nbsp;</code
+            >
+            for empty spaces.
           </div>
         </div>
         <!-- end right -->
@@ -262,8 +345,7 @@ You can use html Entities for example <code class="text-sm sm:text-base inline-f
     </div>
     <!-- end container -->
 
-
-<!--   <script>
+    <!--   <script>
     let componentsLoaded = 0;
     const totalComponents = 5;
 

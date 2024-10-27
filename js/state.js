@@ -1,75 +1,84 @@
 const stateTemplate = {
-  selectedSection: 'card',
+  selectedSection: "card",
   sections: {
     card: {
       contentSettings: {
-        width: '500',
-        height: '500',
-        backgroundColor: '#00ff00',
+        width: "500",
+        height: "500",
+        backgroundColor: "#00ff00",
+        content: "No text for card, use Middle instead!",
       },
       textSettings: {
-        content: 'No text for card, use Middle instead!',
+        bold: false,
+        italic: false,
+        underline: false,
+      },
+      borderSettings: {},
+    },
+    top: {
+      contentSettings: {
+        width: "500",
+        height: "50",
+        backgroundColor: "",
+        content: "Top",
+      },
+      textSettings: {
         bold: false,
         italic: false,
       },
-      borderSettings: {
-
-      },
-    },
-    top: {
-      dimensions: { width: '500', height: '50' },
-      style: {
-        backgroundColor: '',
-        textStyle: {
-          content: 'Top',
-          bold: false,
-          italic: false,
-        },
-      },
+      borderSettings: {},
     },
     bottom: {
-      dimensions: { width: '500', height: '50' },
-      style: {
-        backgroundColor: '',
-        textStyle: {
-          content: 'Bottom',
-          bold: false,
-          italic: false,
-        },
+      contentSettings: {
+        width: "500",
+        height: "50",
+        backgroundColor: "",
+        content: "Bottom",
       },
+      textSettings: {
+        bold: false,
+        italic: false,
+      },
+      borderSettings: {},
     },
     right: {
-      dimensions: { width: '50', height: '400' },
-      style: {
-        backgroundColor: '',
-        textStyle: {
-          content: 'Right',
-          bold: false,
-          italic: false,
-        },
+      contentSettings: {
+        width: "50",
+        height: "400",
+        backgroundColor: "",
+        content: "Right",
       },
+      textSettings: {
+        bold: false,
+        italic: false,
+      },
+      borderSettings: {},
     },
     left: {
-      dimensions: { width: '50', height: '400' },
-      style: {
-        backgroundColor: '',
-        textStyle: {
-          content: 'Left',
-          bold: false,
-          italic: false,
-        },
+      contentSettings: {
+        width: "50",
+        height: "400",
+        backgroundColor: "",
+        content: "Left",
       },
+      textSettings: {
+        bold: false,
+        italic: false,
+      },
+      borderSettings: {},
     },
     middle: {
-      dimensions: { width: '400', height: '400' },
-      style: {
-        backgroundColor: '',
-        textStyle: {
-          content: 'Middle',
-          bold: false,
-          italic: false,
-        },
+      contentSettings: {
+        width: "400",
+        height: "400",
+        backgroundColor: "",
+        content: "Middle",
       },
+      textSettings: {
+        bold: false,
+        italic: false,
+      },
+      borderSettings: {},
     },
   },
 };
