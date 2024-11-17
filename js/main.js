@@ -56,6 +56,36 @@ const allElements = [
     inputType: "checkbox",
     stateKey: ["textSettings", "strikethrough"],
   },
+  {
+    elementID: "fontFamilySelect",
+    eventType: "change",
+    inputType: "select",
+    stateKey: ["textSettings", "fontFamily"],
+  },
+  {
+    elementID: "fontColor",
+    eventType: "input",
+    inputType: "color",
+    stateKey: ["textSettings", "fontColor"],
+  },
+  {
+    elementID: "textAlignLeft",
+    eventType: "change",
+    inputType: "radio",
+    stateKey: ["textSettings", "textAlign"],
+  },
+  {
+    elementID: "textAlignCenter",
+    eventType: "change",
+    inputType: "radio",
+    stateKey: ["textSettings", "textAlign"],
+  },
+  {
+    elementID: "textAlignRight",
+    eventType: "change",
+    inputType: "radio",
+    stateKey: ["textSettings", "textAlign"],
+  },
 ];
 
 function initialize() {
@@ -76,14 +106,34 @@ function initialize() {
     const element = document.getElementById(elem.elementID);
     if (element) {
       element.addEventListener(elem.eventType, function () {
-        let newValue =
-          elem.inputType === "checkbox" ? this.checked : this.value;
-
-        let target = state.sections[state.selectedSection];
-        for (let i = 0; i < elem.stateKey.length - 1; i++) {
-          target = target[elem.stateKey[i]];
+        console.log("ELEMENTELEMENTELEMENTELEMENT: ", element);
+        let newValue;
+        if (elem.inputType === "radio") {
+          newValue = this.value;
+        } else if (elem.inputType === "checkbox") {
+          newValue = this.checked;
+        } else {
+          newValue = this.value;
         }
-        target[elem.stateKey[elem.stateKey.length - 1]] = newValue;
+
+        if (
+          (state.selectedSection === "card" && element.id == !"widthSlider") ||
+          element.id == !"heightSlider"
+        ) {
+          Object.keys(state.sections).forEach((sectionKey) => {
+            let target = state.sections[sectionKey];
+            for (let i = 0; i < elem.stateKey.length - 1; i++) {
+              target = target[elem.stateKey[i]];
+            }
+            target[elem.stateKey[elem.stateKey.length - 1]] = newValue;
+          });
+        } else {
+          let target = state.sections[state.selectedSection];
+          for (let i = 0; i < elem.stateKey.length - 1; i++) {
+            target = target[elem.stateKey[i]];
+          }
+          target[elem.stateKey[elem.stateKey.length - 1]] = newValue;
+        }
 
         generateHTML();
         updateUIElements();
@@ -106,25 +156,38 @@ function initialize() {
 
 function updateUIElements() {
   const currentSection = state.sections[state.selectedSection];
+  const cardSection = state.sections.card;
 
   for (const elem of allElements) {
     const element = document.getElementById(elem.elementID);
     const elementValue = document.getElementById(elem.elementID + "Value");
     if (!element) continue;
 
-    let value = currentSection;
+    let sectionValue = currentSection;
     for (const key of elem.stateKey) {
-      value = value[key];
+      sectionValue = sectionValue?.[key];
+    }
+
+    let value = sectionValue;
+    if (
+      (sectionValue === undefined || sectionValue === "") &&
+      state.selectedSection !== "card"
+    ) {
+      let cardValue = cardSection;
+      for (const key of elem.stateKey) {
+        cardValue = cardValue?.[key];
+      }
+      value = cardValue;
     }
 
     if (elem.inputType === "checkbox") {
-      element.checked = value;
+      element.checked = value ?? false;
     } else {
-      element.value = value;
+      element.value = value ?? "";
     }
 
     if (elementValue) {
-      elementValue.textContent = value;
+      elementValue.textContent = value ?? "";
     }
 
     if (elem.inputType === "textarea") {

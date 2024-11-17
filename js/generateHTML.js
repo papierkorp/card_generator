@@ -9,32 +9,74 @@ function createSectionElement(section, sectionName) {
   element.style.justifyContent = "center";
   element.style.overflow = "hidden";
   element.style.position = "absolute";
-
-  // const textElement = document.createElement("p");
   element.style.margin = "0";
   element.style.padding = "5px";
   element.style.textAlign = "center";
   element.style.wordWrap = "break-word";
-  element.style.fontWeight = section.textSettings.bold ? "bold" : "";
-  element.style.fontStyle = section.textSettings.italic ? "italic" : "";
-  element.style.textDecoration = section.textSettings.underline
-    ? "underline"
-    : "";
 
-  element.style.textDecoration = section.textSettings.strikethrough
-    ? "line-through"
-    : "";
+  if (sectionName !== "card") {
+    const cardSettings = state.sections.card.textSettings;
 
-  element.style.fontSize = section.textSettings.fontsize + "px";
+    element.style.fontWeight =
+      section.textSettings.bold !== undefined
+        ? section.textSettings.bold
+          ? "bold"
+          : "normal"
+        : cardSettings.bold
+          ? "bold"
+          : "normal";
 
-  if (sectionName === "card") {
-    element.className =
-      "transform-gpu origin-top-left w-[500px] h-[500px] max-w-full max-h-full aspect-square";
+    element.style.fontStyle =
+      section.textSettings.italic !== undefined
+        ? section.textSettings.italic
+          ? "italic"
+          : "normal"
+        : cardSettings.italic
+          ? "italic"
+          : "normal";
+
+    let textDecoration = [];
+    if (
+      section.textSettings.underline !== undefined
+        ? section.textSettings.underline
+        : cardSettings.underline
+    ) {
+      textDecoration.push("underline");
+    }
+    if (
+      section.textSettings.strikethrough !== undefined
+        ? section.textSettings.strikethrough
+        : cardSettings.strikethrough
+    ) {
+      textDecoration.push("line-through");
+    }
+    element.style.textDecoration = textDecoration.join(" ");
+
+    element.style.fontSize =
+      (section.textSettings.fontsize || cardSettings.fontsize) + "px";
+    element.style.fontFamily =
+      section.textSettings.fontFamily || cardSettings.fontFamily;
+    element.style.color =
+      section.textSettings.fontColor || cardSettings.fontColor;
+    element.style.textAlign =
+      section.textSettings.textAlign || cardSettings.textAlign;
   } else {
+    element.style.fontWeight = section.textSettings.bold ? "bold" : "normal";
+    element.style.fontStyle = section.textSettings.italic ? "italic" : "normal";
+    let textDecoration = [];
+    if (section.textSettings.underline) textDecoration.push("underline");
+    if (section.textSettings.strikethrough) textDecoration.push("line-through");
+    element.style.textDecoration = textDecoration.join(" ");
+    element.style.fontSize = section.textSettings.fontsize + "px";
+    element.style.fontFamily = section.textSettings.fontFamily;
+    element.style.color = section.textSettings.fontColor;
+    element.style.textAlign = section.textSettings.textAlign;
+  }
+
+  if (sectionName !== "card") {
     element.textContent = section.contentSettings.content;
   }
 
-  // element.appendChild(textElement);
   return element;
 }
 
@@ -94,31 +136,55 @@ export function generateHTML() {
   preview.innerHTML = "";
   preview.appendChild(card);
 
-  // scalePreview();
+  requestAnimationFrame(scalePreview);
 }
 
-// function scalePreview() {
-//   const previewContainer = document.getElementById('previewContainer');
-//   const preview = document.getElementById('preview');
-//   const card = preview.firstChild;
+function scalePreview() {
+  const previewContainer = document.getElementById("previewContainer");
+  const preview = document.getElementById("previewSettings");
+  const card = preview.firstChild;
 
-//   if (!previewContainer || !preview || !card) return;
+  if (!previewContainer || !preview || !card) return;
 
-//   const containerWidth = previewContainer.clientWidth;
-//   const containerHeight = previewContainer.clientHeight;
-//   const cardWidth = parseInt(state.sections.card.dimensions.width);
-//   const cardHeight = parseInt(state.sections.card.dimensions.height);
-//   const scaleX = containerWidth / cardWidth;
-//   const scaleY = containerHeight / cardHeight;
-//   const scale = Math.min(scaleX, scaleY, 1); // Don't scale up, only down if necessary
+  // Reset any existing transforms
+  preview.style.transform = "";
+  card.style.transform = "";
 
-//   card.style.transform = `scale(${scale})`;
-//   card.style.transformOrigin = 'top left';
+  const containerWidth = previewContainer.clientWidth;
+  const containerHeight = previewContainer.clientHeight;
+  const cardWidth = parseInt(state.sections.card.contentSettings.width);
+  const cardHeight = parseInt(state.sections.card.contentSettings.height);
 
-//   const translateX = (containerWidth - cardWidth * scale) / 2;
-//   const translateY = (containerHeight - cardHeight * scale) / 2;
-//   preview.style.position = 'relative';
-//   preview.style.width = `${cardWidth}px`;
-//   preview.style.height = `${cardHeight}px`;
-//   preview.style.transform = `translate(${translateX}px, ${translateY}px)`;
-// }
+  // Add padding to container dimensions
+  const paddingX = 32; // Increased padding for better visibility
+  const paddingY = 60; // Increased padding for better visibility
+  const availableWidth = containerWidth - paddingX;
+  const availableHeight = containerHeight - paddingY;
+
+  const scaleX = availableWidth / cardWidth;
+  const scaleY = availableHeight / cardHeight;
+  const scale = Math.min(scaleX, scaleY, 1);
+
+  // Center the preview in the container
+  const scaledWidth = cardWidth * scale;
+  const scaledHeight = cardHeight * scale;
+
+  // Calculate position to center
+  const translateX = Math.max(0, (availableWidth - scaledWidth) / 2);
+  const translateY = Math.max(0, (availableHeight - scaledHeight) / 2);
+
+  // Set up the preview container
+  preview.style.position = "relative";
+  preview.style.width = `${cardWidth}px`;
+  preview.style.height = `${cardHeight}px`;
+  preview.style.transformOrigin = "0 0";
+
+  // Apply transformations in correct order
+  const transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+  preview.style.transform = transform;
+}
+
+// Add window resize listener to handle container size changes
+window.addEventListener("resize", () => {
+  requestAnimationFrame(scalePreview);
+});

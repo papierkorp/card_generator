@@ -98,26 +98,68 @@ Hello, World!</textarea
 
             <div>
               <label>Font Family</label>
-              <select id="fontSelect">
-                <option value="arial">Arial</option>
-                <option value="helvetica">Helvetica</option>
-                <option value="timesNewRoman">Times New Roman</option>
-                <option value="georgia">Georgia</option>
-                <option value="courierNew">Courier New</option>
-                <option value="verdana">Verdana</option>
+              <select id="fontFamilySelect">
+                <option value="Arial" style="font-family: Arial">Arial</option>
+                <option value="Helvetica" style="font-family: Helvetica">
+                  Helvetica
+                </option>
+                <option
+                  value="Times New Roman"
+                  style="font-family: &quot;Times New Roman&quot;"
+                >
+                  Times New Roman
+                </option>
+                <option value="Georgia" style="font-family: Georgia">
+                  Georgia
+                </option>
+                <option
+                  value="Courier New"
+                  style="font-family: &quot;Courier New&quot;"
+                >
+                  Courier New
+                </option>
+                <option value="Verdana" style="font-family: Verdana">
+                  Verdana
+                </option>
+                <option value="sans-serif" style="font-family: sans-serif">
+                  Sans Serif
+                </option>
+                <option value="serif" style="font-family: serif">Serif</option>
               </select>
             </div>
 
             <div>
-              <label for="textColor">Text Color</label>
-              <input type="color" id="textColor" value="#0000ff" />
+              <label for="fontColor">Text Color</label>
+              <input type="color" id="fontColor" value="#0000ff" />
             </div>
 
             <div>
               <label>Text Alignment</label>
-              <button id="leftAlignmentButton">Left</button>
-              <button id="rightAlignmentButton">Right</button>
-              <button id="centerAlignmentButton">Center</button>
+              <div class="flex gap-2">
+                <input
+                  type="radio"
+                  id="textAlignLeft"
+                  name="textAlign"
+                  value="left"
+                />
+                <label for="textAlignLeft">Left</label>
+
+                <input
+                  type="radio"
+                  id="textAlignCenter"
+                  name="textAlign"
+                  value="center"
+                />
+                <label for="textAlignCenter">Center</label>
+
+                <input
+                  type="radio"
+                  id="textAlignRight"
+                  name="textAlign"
+                  value="right"
+                />
+                <label for="textAlignRight">Right</label>
+              </div>
             </div>
 
             <label>Text Formatting</label>
@@ -155,10 +197,7 @@ Hello, World!</textarea
           >
             <h3 class="text-lg font-semibold mb-4">Preview</h3>
 
-            <div
-              id="previewSettings"
-              class="relative w-full aspect-square flex items-center justify-center"
-            ></div>
+            <div id="previewSettings"></div>
           </div>
           <div
             id="htmlOutputSettings"
