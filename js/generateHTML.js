@@ -1,83 +1,78 @@
 import { state } from "./state.js";
 
+function hexToRGBA(hex, alpha) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
 function createSectionElement(section, sectionName) {
   const element = document.createElement("div");
+  const isCard = sectionName === "card";
+  const textSettings = isCard
+    ? section.textSettings
+    : {
+        ...state.sections.card.textSettings, // Default card settings
+        ...section.textSettings, // Override with section-specific settings
+      };
+
+  // Basic element setup
   element.id = sectionName;
+  if (
+    !isCard &&
+    section.contentSettings.content !== "No text for card, use Middle instead!"
+  ) {
+    element.textContent = section.contentSettings.content;
+  }
+
+  // Apply styles directly
   element.style.backgroundColor = section.contentSettings.backgroundColor;
   element.style.display = "flex";
-  element.style.alignItems = "center";
-  element.style.justifyContent = "center";
   element.style.overflow = "hidden";
   element.style.position = "absolute";
   element.style.margin = "0";
   element.style.padding = "5px";
-  element.style.textAlign = "center";
   element.style.wordWrap = "break-word";
 
-  if (sectionName !== "card") {
-    const cardSettings = state.sections.card.textSettings;
+  // Text styles
+  element.style.fontWeight = textSettings.bold ? "bold" : "normal";
+  element.style.fontStyle = textSettings.italic ? "italic" : "normal";
+  element.style.textDecoration = [
+    textSettings.underline && "underline",
+    textSettings.strikethrough && "line-through",
+  ]
+    .filter(Boolean)
+    .join(" ");
+  element.style.fontSize = `${textSettings.fontsize}px`;
+  element.style.fontFamily = textSettings.fontFamily;
+  element.style.color = textSettings.fontColor;
+  element.style.textAlign = textSettings.textAlign;
 
-    element.style.fontWeight =
-      section.textSettings.bold !== undefined
-        ? section.textSettings.bold
-          ? "bold"
-          : "normal"
-        : cardSettings.bold
-          ? "bold"
-          : "normal";
-
-    element.style.fontStyle =
-      section.textSettings.italic !== undefined
-        ? section.textSettings.italic
-          ? "italic"
-          : "normal"
-        : cardSettings.italic
-          ? "italic"
-          : "normal";
-
-    let textDecoration = [];
-    if (
-      section.textSettings.underline !== undefined
-        ? section.textSettings.underline
-        : cardSettings.underline
-    ) {
-      textDecoration.push("underline");
+  // Add borders
+  ["top", "right", "bottom", "left"].forEach((side) => {
+    if (section.borderSettings[`${side}Border`]) {
+      element.style[`border${side.charAt(0).toUpperCase() + side.slice(1)}`] =
+        `${section.borderSettings.borderSize}px ${section.borderSettings.borderType} ${section.borderSettings.borderColor}`;
+      element.style.borderRadius = `${section.borderSettings.borderRadius}px`;
     }
-    if (
-      section.textSettings.strikethrough !== undefined
-        ? section.textSettings.strikethrough
-        : cardSettings.strikethrough
-    ) {
-      textDecoration.push("line-through");
+
+    // Add shadow if enabled
+    if (section.borderSettings.shadow) {
+      const inset = section.borderSettings.insetShadow ? "inset " : "";
+      const color = section.borderSettings.shadowColor;
+      const opacity = section.borderSettings.shadowOpacity;
+      const rgba = hexToRGBA(color, opacity / 100);
+
+      element.style.boxShadow = `${inset}${section.borderSettings.shadowShiftRight}px ${section.borderSettings.shadowShiftDown}px ${section.borderSettings.shadowBlur}px ${section.borderSettings.shadowSpread}px ${rgba}`;
     }
-    element.style.textDecoration = textDecoration.join(" ");
-
-    element.style.fontSize =
-      (section.textSettings.fontsize || cardSettings.fontsize) + "px";
-    element.style.fontFamily =
-      section.textSettings.fontFamily || cardSettings.fontFamily;
-    element.style.color =
-      section.textSettings.fontColor || cardSettings.fontColor;
-    element.style.textAlign =
-      section.textSettings.textAlign || cardSettings.textAlign;
-  } else {
-    element.style.fontWeight = section.textSettings.bold ? "bold" : "normal";
-    element.style.fontStyle = section.textSettings.italic ? "italic" : "normal";
-    let textDecoration = [];
-    if (section.textSettings.underline) textDecoration.push("underline");
-    if (section.textSettings.strikethrough) textDecoration.push("line-through");
-    element.style.textDecoration = textDecoration.join(" ");
-    element.style.fontSize = section.textSettings.fontsize + "px";
-    element.style.fontFamily = section.textSettings.fontFamily;
-    element.style.color = section.textSettings.fontColor;
-    element.style.textAlign = section.textSettings.textAlign;
-  }
-
-  if (sectionName !== "card") {
-    element.textContent = section.contentSettings.content;
-  }
+  });
 
   return element;
+}
+
+function hasContent(content) {
+  return content && content.trim().length > 0;
 }
 
 export function generateHTML() {
@@ -88,7 +83,11 @@ export function generateHTML() {
   card.style.width = state.sections.card.contentSettings.width + "px";
   card.style.height = state.sections.card.contentSettings.height + "px";
 
-  if (state.sections.top.contentSettings.content) {
+  console.log(
+    "state.sections.top.contentSettings.content: ",
+    state.sections.top.contentSettings.content,
+  );
+  if (hasContent(state.sections.top.contentSettings.content)) {
     const top = createSectionElement(state.sections.top, "top");
     top.style.top = "0";
     top.style.left = "0";
@@ -97,7 +96,7 @@ export function generateHTML() {
     card.appendChild(top);
   }
 
-  if (state.sections.bottom.contentSettings.content) {
+  if (hasContent(state.sections.bottom.contentSettings.content)) {
     const bottom = createSectionElement(state.sections.bottom, "bottom");
     bottom.style.bottom = "0";
     bottom.style.left = "0";
@@ -106,7 +105,7 @@ export function generateHTML() {
     card.appendChild(bottom);
   }
 
-  if (state.sections.left.contentSettings.content) {
+  if (hasContent(state.sections.left.contentSettings.content)) {
     const left = createSectionElement(state.sections.left, "left");
     left.style.top = state.sections.top.contentSettings.height + "px";
     left.style.left = "0";
@@ -115,7 +114,7 @@ export function generateHTML() {
     card.appendChild(left);
   }
 
-  if (state.sections.right.contentSettings.content) {
+  if (hasContent(state.sections.right.contentSettings.content)) {
     const right = createSectionElement(state.sections.right, "right");
     right.style.top = state.sections.top.contentSettings.height + "px";
     right.style.right = "0";
@@ -124,7 +123,7 @@ export function generateHTML() {
     card.appendChild(right);
   }
 
-  if (state.sections.middle.contentSettings.content) {
+  if (hasContent(state.sections.middle.contentSettings.content)) {
     const middle = createSectionElement(state.sections.middle, "middle");
     middle.style.top = state.sections.top.contentSettings.height + "px";
     middle.style.left = state.sections.left.contentSettings.width + "px";

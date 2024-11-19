@@ -86,6 +86,102 @@ const allElements = [
     inputType: "radio",
     stateKey: ["textSettings", "textAlign"],
   },
+  {
+    elementID: "topBorderCheckbox",
+    eventType: "change",
+    inputType: "checkbox",
+    stateKey: ["borderSettings", "topBorder"],
+  },
+  {
+    elementID: "rightBorderCheckbox",
+    eventType: "change",
+    inputType: "checkbox",
+    stateKey: ["borderSettings", "rightBorder"],
+  },
+  {
+    elementID: "bottomBorderCheckbox",
+    eventType: "change",
+    inputType: "checkbox",
+    stateKey: ["borderSettings", "bottomBorder"],
+  },
+  {
+    elementID: "leftBorderCheckbox",
+    eventType: "change",
+    inputType: "checkbox",
+    stateKey: ["borderSettings", "leftBorder"],
+  },
+  {
+    elementID: "borderTypeSelect",
+    eventType: "change",
+    inputType: "select",
+    stateKey: ["borderSettings", "borderType"],
+  },
+  {
+    elementID: "borderSizeSlider",
+    eventType: "input",
+    inputType: "range",
+    stateKey: ["borderSettings", "borderSize"],
+  },
+  {
+    elementID: "borderColor",
+    eventType: "input",
+    inputType: "color",
+    stateKey: ["borderSettings", "borderColor"],
+  },
+  {
+    elementID: "borderRadiusSlider",
+    eventType: "input",
+    inputType: "range",
+    stateKey: ["borderSettings", "borderRadius"],
+  },
+  {
+    elementID: "shadowCheckbox",
+    eventType: "change",
+    inputType: "checkbox",
+    stateKey: ["borderSettings", "shadow"],
+  },
+  {
+    elementID: "insetShadowCheckbox",
+    eventType: "change",
+    inputType: "checkbox",
+    stateKey: ["borderSettings", "insetShadow"],
+  },
+  {
+    elementID: "shadowShiftRightSlider",
+    eventType: "input",
+    inputType: "range",
+    stateKey: ["borderSettings", "shadowShiftRight"],
+  },
+  {
+    elementID: "shadowShiftDownSlider",
+    eventType: "input",
+    inputType: "range",
+    stateKey: ["borderSettings", "shadowShiftDown"],
+  },
+  {
+    elementID: "shadowSpreadSlider",
+    eventType: "input",
+    inputType: "range",
+    stateKey: ["borderSettings", "shadowSpread"],
+  },
+  {
+    elementID: "shadowBlurSlider",
+    eventType: "input",
+    inputType: "range",
+    stateKey: ["borderSettings", "shadowBlur"],
+  },
+  {
+    elementID: "shadowOpacitySlider",
+    eventType: "input",
+    inputType: "range",
+    stateKey: ["borderSettings", "shadowOpacity"],
+  },
+  {
+    elementID: "shadowColor",
+    eventType: "input",
+    inputType: "color",
+    stateKey: ["borderSettings", "shadowColor"],
+  },
 ];
 
 function initialize() {
@@ -106,7 +202,6 @@ function initialize() {
     const element = document.getElementById(elem.elementID);
     if (element) {
       element.addEventListener(elem.eventType, function () {
-        console.log("ELEMENTELEMENTELEMENTELEMENT: ", element);
         let newValue;
         if (elem.inputType === "radio") {
           newValue = this.value;
@@ -178,6 +273,15 @@ function updateUIElements() {
         cardValue = cardValue?.[key];
       }
       value = cardValue;
+    }
+
+    if (
+      (elem.inputType === "textarea" &&
+        state.selectedSection == !"card" &&
+        value === "No text for card, use Middle instead!") ||
+      value === ""
+    ) {
+      value = "";
     }
 
     if (elem.inputType === "checkbox") {
