@@ -15,10 +15,7 @@
         <!-- Left Column -->
         <!----------------------------->
         <div id="leftColumn" class="flex flex-col space-y-4">
-          <div
-            id="contentSettings"
-            class="bg-green-500 min-h-28 p-4 rounded-lg shadow-sm"
-          >
+          <div id="contentSettings" class="bg-green-500 min-h-28 p-4 rounded-lg shadow-sm">
             <h3 class="text-lg font-semibold mb-4">Content Settings</h3>
 
             <select id="sectionSelect">
@@ -32,28 +29,44 @@
 
             <div>
               <label for="widthSlider">Section Width</label>
-              <input
-                type="range"
-                id="widthSlider"
-                min="10"
-                max="2048"
-                value="500"
-              />
+              <input type="range" id="widthSlider" min="10" max="2048" value="500" />
               <span id="widthSliderValue">500</span>
               <span>px</span>
             </div>
 
             <div>
               <label for="heightSlider">Section Height</label>
-              <input
-                type="range"
-                id="heightSlider"
-                min="10"
-                max="2048"
-                value="500"
-              />
+              <input type="range" id="heightSlider" min="10" max="2048" value="500" />
               <span id="heightSliderValue">500</span>
               <span>px</span>
+            </div>
+
+            <div>
+              <label for="leftPosition">Left Position</label>
+              <input type="range" id="leftPosition" min="0" max="100" value="0" />
+              <span id="leftPositionValue">0</span>
+              <span>%</span>
+            </div>
+
+            <div>
+              <label for="topPosition">Top Position</label>
+              <input type="range" id="topPosition" min="0" max="100" value="0" />
+              <span id="topPositionValue">0</span>
+              <span>%</span>
+            </div>
+
+            <div>
+              <label for="bottomPosition">Bottom Position</label>
+              <input type="range" id="bottomPosition" min="0" max="100" value="0" />
+              <span id="bottomPositionValue">0</span>
+              <span>%</span>
+            </div>
+
+            <div>
+              <label for="rightPosition">Right Position</label>
+              <input type="range" id="rightPosition" min="0" max="100" value="0" />
+              <span id="rightPositionValue">0</span>
+              <span>%</span>
             </div>
 
             <div>
@@ -63,9 +76,7 @@
 
             <div>
               <label for="textArea">Set Text</label>
-              <textarea id="textArea" rows="3" cols="30">
-Hello, World!</textarea
-              >
+              <textarea id="textArea" rows="3" cols="30">Hello, World!</textarea>
             </div>
 
             <div>
@@ -77,21 +88,12 @@ Hello, World!</textarea
               <button id="resetButton">Reset</button>
             </div>
           </div>
-          <div
-            id="textSettings"
-            class="bg-red-600 min-h-28 p-4 rounded-lg shadow-sm"
-          >
+          <div id="textSettings" class="bg-red-600 min-h-28 p-4 rounded-lg shadow-sm">
             <h3 class="text-lg font-semibold mb-4">Text Settings</h3>
 
             <div>
               <label for="fontSizeSlider">Font Size</label>
-              <input
-                type="range"
-                id="fontSizeSlider"
-                min="1"
-                max="72"
-                value="16"
-              />
+              <input type="range" id="fontSizeSlider" min="1" max="72" value="16" />
               <span id="fontSizeSliderValue">16</span>
               <span>px</span>
             </div>
@@ -100,30 +102,12 @@ Hello, World!</textarea
               <label>Font Family</label>
               <select id="fontFamilySelect">
                 <option value="Arial" style="font-family: Arial">Arial</option>
-                <option value="Helvetica" style="font-family: Helvetica">
-                  Helvetica
-                </option>
-                <option
-                  value="Times New Roman"
-                  style="font-family: &quot;Times New Roman&quot;"
-                >
-                  Times New Roman
-                </option>
-                <option value="Georgia" style="font-family: Georgia">
-                  Georgia
-                </option>
-                <option
-                  value="Courier New"
-                  style="font-family: &quot;Courier New&quot;"
-                >
-                  Courier New
-                </option>
-                <option value="Verdana" style="font-family: Verdana">
-                  Verdana
-                </option>
-                <option value="sans-serif" style="font-family: sans-serif">
-                  Sans Serif
-                </option>
+                <option value="Helvetica" style="font-family: Helvetica">Helvetica</option>
+                <option value="Times New Roman" style="font-family: 'Times New Roman'">Times New Roman</option>
+                <option value="Georgia" style="font-family: Georgia">Georgia</option>
+                <option value="Courier New" style="font-family: 'Courier New'">Courier New</option>
+                <option value="Verdana" style="font-family: Verdana">Verdana</option>
+                <option value="sans-serif" style="font-family: sans-serif">Sans Serif</option>
                 <option value="serif" style="font-family: serif">Serif</option>
               </select>
             </div>
@@ -136,28 +120,13 @@ Hello, World!</textarea
             <div>
               <label>Text Alignment</label>
               <div class="flex gap-2">
-                <input
-                  type="radio"
-                  id="textAlignLeft"
-                  name="textAlign"
-                  value="left"
-                />
+                <input type="radio" id="textAlignLeft" name="textAlign" value="left" />
                 <label for="textAlignLeft">Left</label>
 
-                <input
-                  type="radio"
-                  id="textAlignCenter"
-                  name="textAlign"
-                  value="center"
-                />
+                <input type="radio" id="textAlignCenter" name="textAlign" value="center" />
                 <label for="textAlignCenter">Center</label>
 
-                <input
-                  type="radio"
-                  id="textAlignRight"
-                  name="textAlign"
-                  value="right"
-                />
+                <input type="radio" id="textAlignRight" name="textAlign" value="right" />
                 <label for="textAlignRight">Right</label>
               </div>
             </div>
@@ -174,9 +143,7 @@ Hello, World!</textarea
               <label for="underlineCheckbox" class="underline">Underline</label>
               <input type="checkbox" id="underlineCheckbox" />
 
-              <label for="strikethroughCheckbox" class="line-through"
-                >Strikethrough</label
-              >
+              <label for="strikethroughCheckbox" class="line-through">Strikethrough</label>
               <input type="checkbox" id="strikethroughCheckbox" />
               <!--
     <label for="highlightCheckbox" class="bg-lime-400">Highlight</label>
@@ -191,18 +158,12 @@ Hello, World!</textarea
         <!----------------------------->
 
         <div id="middleColumn" class="md:col-span-2 flex flex-col space-y-4">
-          <div
-            id="previewContainer"
-            class="bg-green-600 p-4 rounded-lg shadow-sm overflow-hidden"
-          >
+          <div id="previewContainer" class="bg-green-600 p-4 rounded-lg shadow-sm overflow-hidden">
             <h3 class="text-lg font-semibold mb-4">Preview</h3>
 
             <div id="previewSettings"></div>
           </div>
-          <div
-            id="htmlOutputSettings"
-            class="bg-green-600 min-h-28 p-4 rounded-lg shadow-sm"
-          >
+          <div id="htmlOutputSettings" class="bg-green-600 min-h-28 p-4 rounded-lg shadow-sm">
             <h3 class="text-lg font-semibold mb-4">HTML Output</h3>
           </div>
         </div>
@@ -213,10 +174,7 @@ Hello, World!</textarea
         <!----------------------------->
 
         <div id="rightColumn" class="flex flex-col space-y-4">
-          <div
-            id="borderSettings"
-            class="bg-blue-500 min-h-28 p-4 rounded-lg shadow-sm"
-          >
+          <div id="borderSettings" class="bg-blue-500 min-h-28 p-4 rounded-lg shadow-sm">
             <h3 class="text-lg font-semibold mb-4">Border Settings</h3>
 
             <div>
@@ -251,26 +209,14 @@ Hello, World!</textarea
 
               <div>
                 <label for="borderSizeSlider">Border Size</label>
-                <input
-                  type="range"
-                  id="borderSizeSlider"
-                  min="0"
-                  max="128"
-                  value="1"
-                />
+                <input type="range" id="borderSizeSlider" min="0" max="128" value="1" />
                 <span id="borderSizeSliderValue">1</span>
                 <span>px</span>
               </div>
 
               <div>
                 <label for="borderRadiusSliderValue">Roundend Corners</label>
-                <input
-                  type="range"
-                  id="borderRadiusSlider"
-                  min="0"
-                  max="128"
-                  value="0"
-                />
+                <input type="range" id="borderRadiusSlider" min="0" max="128" value="0" />
                 <span id="borderRadiusSliderValue">0</span>
                 <span>px</span>
               </div>
@@ -293,65 +239,35 @@ Hello, World!</textarea
 
               <div>
                 <label for="shadowShiftRightSlider">Shadow Shift Right</label>
-                <input
-                  type="range"
-                  id="shadowShiftRightSlider"
-                  min="-20"
-                  max="20"
-                  value="0"
-                />
+                <input type="range" id="shadowShiftRightSlider" min="-20" max="20" value="0" />
                 <span id="shadowShiftRightSliderValue">0</span>
                 <span>px</span>
               </div>
 
               <div>
                 <label for="shadowShiftDownSlider">Shadow Shift Down</label>
-                <input
-                  type="range"
-                  id="shadowShiftDownSlider"
-                  min="-20"
-                  max="20"
-                  value="0"
-                />
+                <input type="range" id="shadowShiftDownSlider" min="-20" max="20" value="0" />
                 <span id="shadowShiftDownSliderValue">0</span>
                 <span>px</span>
               </div>
 
               <div>
                 <label for="shadowSpreadSlider">Shadow Spread</label>
-                <input
-                  type="range"
-                  id="shadowSpreadSlider"
-                  min="0"
-                  max="20"
-                  value="0"
-                />
+                <input type="range" id="shadowSpreadSlider" min="0" max="20" value="0" />
                 <span id="shadowSpreadSliderValue">0</span>
                 <span>px</span>
               </div>
 
               <div>
                 <label for="shadowBlurSlider">Shadow Blur</label>
-                <input
-                  type="range"
-                  id="shadowBlurSlider"
-                  min="0"
-                  max="20"
-                  value="0"
-                />
+                <input type="range" id="shadowBlurSlider" min="0" max="20" value="0" />
                 <span id="shadowBlurSliderValue">0</span>
                 <span>px</span>
               </div>
 
               <div>
                 <label for="shadowOpacitySlider">Shadow Opacity</label>
-                <input
-                  type="range"
-                  id="shadowOpacitySlider"
-                  min="0"
-                  max="100"
-                  value="50"
-                />
+                <input type="range" id="shadowOpacitySlider" min="0" max="100" value="50" />
                 <span id="shadowOpacitySliderValue">50</span>
                 <span>%</span>
               </div>
@@ -362,10 +278,7 @@ Hello, World!</textarea
               </div>
             </div>
           </div>
-          <div
-            id="helpSection"
-            class="bg-blue-600 min-h-28 p-4 rounded-lg shadow-sm"
-          >
+          <div id="helpSection" class="bg-blue-600 min-h-28 p-4 rounded-lg shadow-sm">
             <h3 class="text-lg font-semibold mb-4">Help</h3>
 
             You can use html Entities for example
