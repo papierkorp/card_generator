@@ -1,4 +1,4 @@
-import { state, resetState, addDiv } from "./state.js";
+import { state, resetState, addDiv, deleteDiv } from "./state.js";
 import { generateHTML } from "./generateHTML.js";
 import { allElements } from "./htmlElements.js";
 
