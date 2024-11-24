@@ -1,39 +1,83 @@
 # Card Generator
 
-just a small app to generate a html Code by using HTML Inputs.
+A web app that generates customizable HTML cards with different styling options.
 
-**How does the app work**
+## Core Functions Explained
 
-1. initalize (main.js)
+1. `state.js` - Stores all settings and data
 
-- get sectionSelect and add addEventListener
-  - update state.selectedSection
-  - generateHTML
-  - updateUIElements
-- resetButton
-- go through allElements and add addEventListener
-  - update state var for selectedSection
-  - generateHTML
-  - updateUIElements
+   - Think of it as a big settings file that remembers all your choices
+   - Contains default values for new cards and divs
+   - All changes to the app go through here first
 
-2. generateHTML (generateHTML.js)
+2. `generateHTML.js` - Creates the visual output
 
-- getElementById(previewSettings) and set innerHTML
-- for Each section (card/top/bottom...) generate a new DIV with and append if there is content in the TextArea
+   - Takes all settings from state and turns them into visible elements
+   - Handles how things look on screen
+   - Applies all styling (colors, fonts, borders, etc.)
 
-3. update UI Elements (main.js)
+3. `main.js` - Controls everything
 
-- go through allElements
-  - update HTML Input based on current state
-  - update HTML label for Input based on current state
+   - Listens for any changes you make (like moving sliders)
+   - Updates the state when you change settings
+   - Tells generateHTML to refresh the preview
+   - Keeps UI elements in sync with current settings
 
-# Local Development
+4. `htmlElements.js` - Defines all settings controls
+   - Lists all sliders, checkboxes, and inputs
+   - Connects HTML elements to state properties
+   - Makes it easy to add new settings
 
-you need some kind of local webserver
+## How to Add New Settings
+
+1. **Update State** (`state.js`)
+
+   ```javascript
+   // Add your new setting to the appropriate section in divTemplate
+   textSettings: {
+     // existing settings...
+     myNewSetting: "defaultValue",
+   }
+   ```
+
+2. **Add HTML Control** (`index.html`)
+
+   ```html
+   <!-- Add in the appropriate settings section -->
+   <div>
+     <label for="myNewSettingControl">My New Setting</label>
+     <input type="range" id="myNewSettingControl" min="0" max="100" value="50" />
+     <span id="myNewSettingControlValue">50</span>
+     <span>units</span>
+   </div>
+   ```
+
+3. **Register Control** (`htmlElements.js`)
+
+   ```javascript
+   // Add to allElements array
+   {
+     elementID: "myNewSettingControl",
+     eventType: "input",  // or "change" for checkboxes
+     inputType: "range",  // or "checkbox", "color", "select"
+     stateKey: ["sectionName", "myNewSetting"],
+   }
+   ```
+
+4. **Apply Setting** (`generateHTML.js`)
+   ```javascript
+   // Add in createSectionElement function where appropriate
+   if (!isCard) {
+     element.style.myNewCssProperty = `${section.sectionName.myNewSetting}unit`;
+   }
+   ```
+
+## Local Development
+
+Run a local web server:
 
 ```bash
-#temp webserver with python
 python3 -m http.server 8000
 ```
 
-and the http://localhost:8000
+Then open http://localhost:8000

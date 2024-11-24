@@ -1,288 +1,182 @@
-import { state, resetState, addMiddleSection } from "./state.js";
+import { state, resetState, addDiv } from "./state.js";
 import { generateHTML } from "./generateHTML.js";
+import { allElements } from "./htmlElements.js";
 
-const allElements = [
-  {
-    elementID: "heightSlider",
-    eventType: "input",
-    inputType: "range",
-    stateKey: ["contentSettings", "height"],
-  },
-  {
-    elementID: "widthSlider",
-    eventType: "input",
-    inputType: "range",
-    stateKey: ["contentSettings", "width"],
-  },
-  {
-    elementID: "bgColor",
-    eventType: "input",
-    inputType: "color",
-    stateKey: ["contentSettings", "backgroundColor"],
-  },
-  {
-    elementID: "textArea",
-    eventType: "input",
-    inputType: "textarea",
-    stateKey: ["contentSettings", "content"],
-  },
-  {
-    elementID: "fontSizeSlider",
-    eventType: "input",
-    inputType: "range",
-    stateKey: ["textSettings", "fontsize"],
-  },
-  {
-    elementID: "boldCheckbox",
-    eventType: "change",
-    inputType: "checkbox",
-    stateKey: ["textSettings", "bold"],
-  },
-  {
-    elementID: "italicCheckbox",
-    eventType: "change",
-    inputType: "checkbox",
-    stateKey: ["textSettings", "italic"],
-  },
-  {
-    elementID: "underlineCheckbox",
-    eventType: "change",
-    inputType: "checkbox",
-    stateKey: ["textSettings", "underline"],
-  },
-  {
-    elementID: "strikethroughCheckbox",
-    eventType: "change",
-    inputType: "checkbox",
-    stateKey: ["textSettings", "strikethrough"],
-  },
-  {
-    elementID: "fontFamilySelect",
-    eventType: "change",
-    inputType: "select",
-    stateKey: ["textSettings", "fontFamily"],
-  },
-  {
-    elementID: "fontColor",
-    eventType: "input",
-    inputType: "color",
-    stateKey: ["textSettings", "fontColor"],
-  },
-  {
-    elementID: "textAlignLeft",
-    eventType: "change",
-    inputType: "radio",
-    stateKey: ["textSettings", "textAlign"],
-  },
-  {
-    elementID: "textAlignCenter",
-    eventType: "change",
-    inputType: "radio",
-    stateKey: ["textSettings", "textAlign"],
-  },
-  {
-    elementID: "textAlignRight",
-    eventType: "change",
-    inputType: "radio",
-    stateKey: ["textSettings", "textAlign"],
-  },
-  {
-    elementID: "topBorderCheckbox",
-    eventType: "change",
-    inputType: "checkbox",
-    stateKey: ["borderSettings", "topBorder"],
-  },
-  {
-    elementID: "rightBorderCheckbox",
-    eventType: "change",
-    inputType: "checkbox",
-    stateKey: ["borderSettings", "rightBorder"],
-  },
-  {
-    elementID: "bottomBorderCheckbox",
-    eventType: "change",
-    inputType: "checkbox",
-    stateKey: ["borderSettings", "bottomBorder"],
-  },
-  {
-    elementID: "leftBorderCheckbox",
-    eventType: "change",
-    inputType: "checkbox",
-    stateKey: ["borderSettings", "leftBorder"],
-  },
-  {
-    elementID: "borderTypeSelect",
-    eventType: "change",
-    inputType: "select",
-    stateKey: ["borderSettings", "borderType"],
-  },
-  {
-    elementID: "borderSizeSlider",
-    eventType: "input",
-    inputType: "range",
-    stateKey: ["borderSettings", "borderSize"],
-  },
-  {
-    elementID: "borderColor",
-    eventType: "input",
-    inputType: "color",
-    stateKey: ["borderSettings", "borderColor"],
-  },
-  {
-    elementID: "borderRadiusSlider",
-    eventType: "input",
-    inputType: "range",
-    stateKey: ["borderSettings", "borderRadius"],
-  },
-  {
-    elementID: "shadowCheckbox",
-    eventType: "change",
-    inputType: "checkbox",
-    stateKey: ["borderSettings", "shadow"],
-  },
-  {
-    elementID: "insetShadowCheckbox",
-    eventType: "change",
-    inputType: "checkbox",
-    stateKey: ["borderSettings", "insetShadow"],
-  },
-  {
-    elementID: "shadowShiftRightSlider",
-    eventType: "input",
-    inputType: "range",
-    stateKey: ["borderSettings", "shadowShiftRight"],
-  },
-  {
-    elementID: "shadowShiftDownSlider",
-    eventType: "input",
-    inputType: "range",
-    stateKey: ["borderSettings", "shadowShiftDown"],
-  },
-  {
-    elementID: "shadowSpreadSlider",
-    eventType: "input",
-    inputType: "range",
-    stateKey: ["borderSettings", "shadowSpread"],
-  },
-  {
-    elementID: "shadowBlurSlider",
-    eventType: "input",
-    inputType: "range",
-    stateKey: ["borderSettings", "shadowBlur"],
-  },
-  {
-    elementID: "shadowOpacitySlider",
-    eventType: "input",
-    inputType: "range",
-    stateKey: ["borderSettings", "shadowOpacity"],
-  },
-  {
-    elementID: "shadowColor",
-    eventType: "input",
-    inputType: "color",
-    stateKey: ["borderSettings", "shadowColor"],
-  },
-  {
-    elementID: "leftPosition",
-    eventType: "input",
-    inputType: "range",
-    stateKey: ["contentSettings", "leftPosition"],
-  },
-  {
-    elementID: "topPosition",
-    eventType: "input",
-    inputType: "range",
-    stateKey: ["contentSettings", "topPosition"],
-  },
-];
+function updateSectionSelect() {
+  const selectSection = document.getElementById("sectionSelect");
+  if (!selectSection) return;
+
+  selectSection.innerHTML = `
+    <option value="card">Card</option>
+    ${Object.entries(state.sections.divs || {})
+      .map(([id]) => `<option value="div${id}">Div ${id}</option>`)
+      .join("")}
+  `;
+  selectSection.value = state.selectedSection;
+}
 
 function initialize() {
-  const selectSection = document.getElementById("sectionSelect");
-  selectSection.addEventListener("change", function () {
-    state.selectedSection = this.value;
-    console.log("changed selectSection to: ", this.value);
+  // Common handler for UI updates
+  const updateUI = () => {
     generateHTML();
     updateUIElements();
-  });
+  };
 
-  const addMiddleButton = document.getElementById("addMiddleButton");
-  addMiddleButton.addEventListener("click", () => {
-    addMiddleSection();
-    generateHTML();
-    updateUIElements();
-  });
-
-  const resetButton = document.getElementById("resetButton");
-  if (resetButton) {
-    resetButton.addEventListener("click", resetState);
-  }
-
-  for (const elem of allElements) {
-    const element = document.getElementById(elem.elementID);
-    if (element) {
-      element.addEventListener(elem.eventType, function () {
-        let newValue;
-        if (elem.inputType === "radio") {
-          newValue = this.value;
-        } else if (elem.inputType === "checkbox") {
-          newValue = this.checked;
-        } else {
-          newValue = this.value;
+  // Basic button handler setup
+  const buttonHandlers = {
+    sectionSelect: {
+      event: "change",
+      handler: function () {
+        state.selectedSection = this.value;
+      },
+    },
+    addMiddleButton: {
+      event: "click",
+      setup: (elem) => (elem.textContent = "Add Div"),
+      handler: () => addDiv(),
+    },
+    deleteMiddleButton: {
+      event: "click",
+      setup: (elem) => (elem.textContent = "Delete Div"),
+      handler: () => {
+        if (state.selectedSection.startsWith("div")) {
+          const divId = state.selectedSection.replace("div", "");
+          deleteDiv(divId);
         }
+      },
+    },
+    resetButton: {
+      event: "click",
+      handler: () => resetState(),
+    },
+    copyButton: {
+      event: "click",
+      setup: (elem) => (elem.textContent = "Copy HTML"),
+      handler: function () {
+        const htmlOutput = document.getElementById("htmlOutputSettings");
+        if (!htmlOutput) return;
 
-        if (
-          (state.selectedSection === "card" && element.id == !"widthSlider") ||
-          element.id == !"heightSlider"
-        ) {
-          Object.keys(state.sections).forEach((sectionKey) => {
-            let target = state.sections[sectionKey];
-            for (let i = 0; i < elem.stateKey.length - 1; i++) {
-              target = target[elem.stateKey[i]];
+        const copyText = function (text) {
+          if (navigator.clipboard && window.isSecureContext) {
+            return navigator.clipboard.writeText(text);
+          } else {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+              document.execCommand("copy");
+              textArea.remove();
+              return Promise.resolve();
+            } catch (error) {
+              textArea.remove();
+              return Promise.reject(error);
             }
-            target[elem.stateKey[elem.stateKey.length - 1]] = newValue;
-          });
-        } else {
-          let target = state.sections[state.selectedSection];
-          for (let i = 0; i < elem.stateKey.length - 1; i++) {
-            target = target[elem.stateKey[i]];
           }
-          target[elem.stateKey[elem.stateKey.length - 1]] = newValue;
-        }
+        };
 
-        generateHTML();
-        updateUIElements();
+        copyText(htmlOutput.innerText)
+          .then(() => {
+            const button = document.getElementById("copyButton");
+            button.textContent = "Copied!";
 
-        console.log("elementID: ", elem.elementID);
-        console.log("eventType: ", elem.eventType);
-        console.log("inputType: ", elem.inputType);
-        console.log("stateKey: ", elem.stateKey);
-        console.log("newValue: ", newValue);
-        console.log("state: ", state);
+            setTimeout(() => {
+              button.textContent = "Copy HTML";
+            }, 2000);
+          })
+          .catch((err) => console.error("Failed to copy:", err));
+      },
+    },
+  };
+
+  // Set up basic button handlers
+  Object.entries(buttonHandlers).forEach(([id, config]) => {
+    const element = document.getElementById(id);
+    if (element) {
+      if (config.setup) config.setup(element);
+      element.addEventListener(config.event, (...args) => {
+        config.handler.apply(element, args);
+        updateUI();
       });
-    } else {
-      console.warn(`Element with ID "${elem.elementID}" not found.`);
     }
-  }
+  });
 
-  generateHTML();
-  updateUIElements();
+  // Set up element handlers from allElements
+  allElements.forEach((elem) => {
+    const element = document.getElementById(elem.elementID);
+    if (!element) {
+      console.warn(`Element with ID "${elem.elementID}" not found.`);
+      return;
+    }
+
+    element.addEventListener(elem.eventType, function () {
+      const newValue =
+        elem.inputType === "checkbox" ? this.checked : this.value;
+
+      // Handle state updates based on section type
+      if (state.selectedSection.startsWith("div")) {
+        updateStateValue(
+          state.sections.divs[state.selectedSection.replace("div", "")],
+          elem.stateKey,
+          newValue,
+        );
+      } else if (state.selectedSection === "card") {
+        const isCardDimension = ["widthSlider", "heightSlider"].includes(
+          elem.elementID,
+        );
+
+        if (isCardDimension) {
+          updateStateValue(
+            state.sections[state.selectedSection],
+            elem.stateKey,
+            newValue,
+          );
+        } else {
+          updateStateValue(state.sections.card, elem.stateKey, newValue);
+          Object.values(state.sections.divs || {}).forEach((div) => {
+            updateStateValue(div, elem.stateKey, newValue);
+          });
+        }
+      }
+
+      console.log("elementID: ", elem.elementID);
+      console.log("eventType: ", elem.eventType);
+      console.log("inputType: ", elem.inputType);
+      console.log("stateKey: ", elem.stateKey);
+      console.log("newValue: ", newValue);
+      console.log("state: ", state);
+
+      updateUI();
+    });
+  });
+
+  updateUI();
+}
+
+function updateStateValue(target, stateKeyPath, value) {
+  let current = target;
+  for (let i = 0; i < stateKeyPath.length - 1; i++) {
+    current = current[stateKeyPath[i]];
+  }
+  current[stateKeyPath[stateKeyPath.length - 1]] = value;
 }
 
 function updateUIElements() {
-  const currentSection = state.sections[state.selectedSection];
+  let currentSection;
+  if (state.selectedSection.startsWith("div")) {
+    const divId = state.selectedSection.replace("div", "");
+    currentSection = state.sections.divs[divId];
+  } else {
+    currentSection = state.sections[state.selectedSection];
+  }
   const cardSection = state.sections.card;
 
-  const selectSection = document.getElementById("sectionSelect");
-  selectSection.innerHTML = `
-  <option value="card">Card</option>
-  <option value="top">Top</option>
-  <option value="bottom">Bottom</option>
-  <option value="left">Left</option>
-  <option value="right">Right</option>
-  ${Object.keys(state.sections.middles)
-    .map((id) => `<option value="middle${id}">Middle ${id}</option>`)
-    .join("")}
-`;
+  updateSectionSelect();
 
   for (const elem of allElements) {
     const element = document.getElementById(elem.elementID);
@@ -306,17 +200,10 @@ function updateUIElements() {
       value = cardValue;
     }
 
-    if (
-      (elem.inputType === "textarea" &&
-        state.selectedSection !== "card" &&
-        value === "No text for card, use Middle instead!") ||
-      value === ""
-    ) {
-      value = "";
-    }
-
     if (elem.inputType === "checkbox") {
       element.checked = value ?? false;
+    } else if (elem.inputType === "radio") {
+      element.checked = element.value === value;
     } else {
       element.value = value ?? "";
     }
@@ -325,10 +212,12 @@ function updateUIElements() {
       elementValue.textContent = value ?? "";
     }
 
+    // Disable textarea for card section
     if (elem.inputType === "textarea") {
       element.disabled = state.selectedSection === "card";
     }
 
+    // Disable position sliders for card section
     if (elem.elementID.includes("Position")) {
       element.disabled = state.selectedSection === "card";
     }
