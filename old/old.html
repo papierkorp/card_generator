@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Card Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      #cardPreviewContainer {
+        height: 70vh;
+        position: relative;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+      <h1 class="text-3xl font-bold mb-8 text-center">Card Generator</h1>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <!-- Left Column -->
+        <div class="space-y-8">
+          <div id="contentSettings">
+            <div class="p-4 border rounded-lg shadow-sm bg-white">
+              <h3 class="text-lg font-semibold mb-4">Content Settings</h3>
+
+              <div id="contentEditor" class="mb-6" style="display: none">
+                <h4 class="text-md font-semibold mb-2">Content Editor</h4>
+                <div id="textEditor" class="mb-2">
+                  <textarea
+                    id="textContent"
+                    class="w-full p-2 border rounded"
+                    rows="1"
+                    placeholder="Enter text content"
+                  ></textarea>
+                </div>
+                <div class="flex justify-between">
+                  <button
+                    id="saveContent"
+                    class="bg-lime-600 text-white px-3 py-1 text-sm rounded hover:bg-lime-700"
+                  >
+                    Save Content
+                  </button>
+                  <button
+                    id="resetContent"
+                    class="bg-slate-600 text-white px-3 py-1 text-sm rounded hover:bg-slate-700"
+                  >
+                    Reset Content
+                  </button>
+                </div>
+              </div>
+
+              <div
+                id="sectionDimensions"
+                class="flex space-x-4 mb-4"
+                style="display: none"
+              >
+                <div id="middleSectionHeight" class="flex-1">
+                  <div class="flex justify-between items-center mb-1">
+                    <label
+                      for="sectionHeightSlider"
+                      class="text-sm font-medium text-gray-700"
+                      >Section Height</label
+                    >
+                    <div class="flex items-center">
+                      <span
+                        id="sectionHeightSliderValue"
+                        class="text-sm text-gray-500"
+                        >512</span
+                      >
+                      <span class="text-sm text-gray-500 ml-1">px</span>
+                    </div>
+                  </div>
+                  <input
+                    type="range"
+                    id="sectionHeightSlider"
+                    min="10"
+                    max="2048"
+                    value="512"
+                    class="w-full accent-lime-400"
+                  />
+                </div>
+
+                <div id="middleSectionWidth" class="flex-1">
+                  <div class="flex justify-between items-center mb-1">
+                    <label
+                      for="sectionWidthSlider"
+                      class="text-sm font-medium text-gray-700"
+                      >Section Width</label
+                    >
+                    <div class="flex items-center">
+                      <span
+                        id="sectionWidthSliderValue"
+                        class="text-sm text-gray-500"
+                        >32</span
+                      >
+                      <span class="text-sm text-gray-500 ml-1">px</span>
+                    </div>
+                  </div>
+                  <input
+                    type="range"
+                    id="sectionWidthSlider"
+                    min="10"
+                    max="512"
+                    value="32"
+                    class="w-full accent-lime-400"
+                  />
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label
+                  for="backgroundColor"
+                  class="block text-sm font-medium text-gray-700 mb-1"
+                  >Background Color</label
+                >
+                <input
+                  type="color"
+                  id="backgroundColor"
+                  value="#ffffff"
+                  class="w-full"
+                />
+              </div>
+
+              <!-- New buttons for adding and deleting middle sections, initially hidden -->
+              <div
+                id="middleSectionButtons"
+                class="flex justify-between mt-4"
+                style="display: none"
+              >
+                <button
+                  id="addMiddleSection"
+                  class="bg-green-600 text-white px-3 py-1 text-sm rounded hover:bg-green-700"
+                >
+                  Add Middle Section
+                </button>
+                <button
+                  id="deleteMiddleSection"
+                  class="bg-red-600 text-white px-3 py-1 text-sm rounded hover:bg-red-700"
+                >
+                  Delete Middle Section
+                </button>
+              </div>
+            </div>
+          </div>
+          <div id="textSettings">
+            <div class="p-4 border rounded-lg shadow-sm bg-white">
+              <h3 class="text-lg font-semibold mb-4">Text Settings</h3>
+
+              <div class="mb-4">
+                <div class="flex justify-between items-center mb-1">
+                  <label
+                    for="fontSize"
+                    class="text-sm font-medium text-gray-700"
+                    >Font Size</label
+                  >
+                  <span id="fontSizeValue" class="text-sm text-gray-500"
+                    >16px</span
+                  >
+                </div>
+                <input
+                  type="range"
+                  id="fontSize"
+                  min="8"
+                  max="72"
+                  value="16"
+                  class="w-full accent-lime-400"
+                />
+              </div>
+
+              <div class="mb-4">
+                <label
+                  for="fontFamily"
+                  class="block text-sm font-medium text-gray-700 mb-1"
+                  >Font Family</label
+                >
+                <select id="fontFamily" class="w-full p-2 border rounded">
+                  <option value="Arial">Arial</option>
+                  <option value="Helvetica">Helvetica</option>
+                  <option value="Times New Roman">Times New Roman</option>
+                  <option value="Georgia">Georgia</option>
+                  <option value="Courier New">Courier New</option>
+                  <option value="Verdana">Verdana</option>
+                </select>
+              </div>
+
+              <div class="mb-4">
+                <label
+                  for="textColor"
+                  class="block text-sm font-medium text-gray-700 mb-1"
+                  >Text Color</label
+                >
+                <input
+                  type="color"
+                  id="textColor"
+                  value="#000000"
+                  class="w-full"
+                />
+              </div>
+
+              <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Text Alignment</label
+                >
+                <div class="flex space-x-4">
+                  <button class="p-2 border rounded" id="alignLeft">
+                    Left
+                  </button>
+                  <button class="p-2 border rounded" id="alignCenter">
+                    Center
+                  </button>
+                  <button class="p-2 border rounded" id="alignRight">
+                    Right
+                  </button>
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Text Formatting</label
+                >
+                <div class="flex flex-wrap gap-4">
+                  <button class="p-2 border rounded font-bold" id="boldText">
+                    Bold
+                  </button>
+                  <button class="p-2 border rounded italic" id="italicText">
+                    Italic
+                  </button>
+                  <button
+                    class="p-2 border rounded underline"
+                    id="underlineText"
+                  >
+                    Underline
+                  </button>
+                  <button
+                    class="p-2 border rounded line-through"
+                    id="strikethroughText"
+                  >
+                    Strikethrough
+                  </button>
+                  <button
+                    class="p-2 border rounded bg-lime-400"
+                    id="highlightText"
+                  >
+                    Highlight
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Middle Columns (Card Settings and Preview) -->
+        <div class="md:col-span-2 space-y-8">
+          <div id="cardSettings" class="bg-white p-4 rounded-lg shadow-sm">
+            <div class="bg-white p-4 rounded-lg shadow-sm">
+              <h3 class="text-lg font-semibold mb-4">Card Dimensions</h3>
+              <div class="flex space-x-4 mb-4">
+                <div class="flex-1">
+                  <div class="flex justify-between items-center mb-1">
+                    <label
+                      for="cardWidth"
+                      class="text-sm font-medium text-gray-700"
+                      >Width</label
+                    >
+                    <div class="flex items-center">
+                      <span id="cardWidthValue" class="text-sm text-gray-500"
+                        >400</span
+                      >
+                      <span class="text-sm text-gray-500 ml-1">px</span>
+                    </div>
+                  </div>
+                  <input
+                    type="range"
+                    id="cardWidth"
+                    min="20"
+                    max="2048"
+                    value="400"
+                    class="w-full accent-lime-400"
+                  />
+                </div>
+                <div class="flex-1">
+                  <div class="flex justify-between items-center mb-1">
+                    <label
+                      for="cardHeight"
+                      class="text-sm font-medium text-gray-700"
+                      >Height</label
+                    >
+                    <div class="flex items-center">
+                      <span id="cardHeightValue" class="text-sm text-gray-500"
+                        >600</span
+                      >
+                      <span class="text-sm text-gray-500 ml-1">px</span>
+                    </div>
+                  </div>
+                  <input
+                    type="range"
+                    id="cardHeight"
+                    min="20"
+                    max="2048"
+                    value="600"
+                    class="w-full accent-lime-400"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label
+                  for="contentSelector"
+                  class="block text-sm font-medium text-gray-700 mb-1"
+                  >Select Content Area</label
+                >
+                <div class="flex items-center">
+                  <select
+                    id="contentSelector"
+                    class="w-full p-2 border rounded"
+                  >
+                    <option value="card">Entire Card</option>
+                    <option value="top">Top Edge</option>
+                    <option value="right">Right Edge</option>
+                    <option value="bottom">Bottom Edge</option>
+                    <option value="left">Left Edge</option>
+                    <option value="middle1">Middle Section 1</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="previewSettings">
+            <h2 class="text-xl font-semibold mb-4">Card Preview</h2>
+            <div id="cardPreviewContainer" class="border border-gray-300 p-4">
+              <div id="cardPreview" class="absolute">
+                <div id="topEdge" class="border-b p-2">Top Edge Content</div>
+                <div class="flex h-full">
+                  <div id="leftEdge" class="border-r p-2 writing-vertical-lr">
+                    Left Edge Content
+                  </div>
+                  <div
+                    id="middleContentContainer"
+                    class="flex-1 overflow-auto flex flex-col"
+                  >
+                    <div id="middleContent-1" class="p-2 flex-grow">
+                      Middle Content 1
+                    </div>
+                  </div>
+                  <div id="rightEdge" class="border-l p-2 writing-vertical-rl">
+                    Right Edge Content
+                  </div>
+                </div>
+                <div id="bottomEdge" class="border-t p-2">
+                  Bottom Edge Content
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h2 class="text-xl font-semibold mb-4">HTML Output</h2>
+            <pre
+              id="htmlOutput"
+              class="bg-gray-100 p-4 rounded overflow-x-auto text-sm"
+              style="max-height: 200px"
+            ></pre>
+          </div>
+          <div id="staticPreviewContainer"></div>
+        </div>
+
+        <!-- Right Column (Border Settings and Help) -->
+        <div class="space-y-8">
+          <div id="borderSettings">
+            <div class="p-4 border rounded-lg shadow-sm bg-white">
+              <h3 class="text-lg font-semibold mb-4">Border Settings</h3>
+
+              <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Border Sides</label
+                >
+                <div class="flex flex-wrap gap-2">
+                  <label class="text-xs text-gray-600"
+                    ><input type="checkbox" id="top" /> Top</label
+                  >
+                  <label class="text-xs text-gray-600"
+                    ><input type="checkbox" id="right" /> Right</label
+                  >
+                  <label class="text-xs text-gray-600"
+                    ><input type="checkbox" id="bottom" /> Bottom</label
+                  >
+                  <label class="text-xs text-gray-600"
+                    ><input type="checkbox" id="left" /> Left</label
+                  >
+                </div>
+              </div>
+
+              <div class="mb-4 flex justify-between items-center">
+                <label for="borderType" class="text-xs text-gray-600"
+                  >Border Type</label
+                >
+                <select id="borderType" class="w-full p-2 border rounded">
+                  <option value="solid">Solid</option>
+                  <option value="dotted">Dotted</option>
+                  <option value="dashed">Dashed</option>
+                  <option value="double">Double</option>
+                  <option value="groove">Groove</option>
+                  <option value="ridge">Ridge</option>
+                  <option value="inset">Inset</option>
+                  <option value="outset">Outset</option>
+                </select>
+              </div>
+
+              <div class="mb-4 flex space-x-4">
+                <div class="flex-1">
+                  <div class="flex justify-between items-center mb-1">
+                    <label for="borderSize" class="text-xs text-gray-600"
+                      >Border Size</label
+                    >
+                    <div class="flex items-center">
+                      <span id="borderSizeValue" class="text-sm text-gray-500"
+                        >1</span
+                      >
+                      <span class="text-sm text-gray-500 ml-1">px</span>
+                    </div>
+                  </div>
+                  <input
+                    type="range"
+                    id="borderSize"
+                    min="0"
+                    max="20"
+                    value="1"
+                    class="w-full accent-lime-400"
+                  />
+                </div>
+                <div class="flex-1">
+                  <div class="flex justify-between items-center mb-1">
+                    <label for="borderRadius" class="text-xs text-gray-600"
+                      >Rounded Corners</label
+                    >
+                    <span id="borderRadiusValue" class="text-sm text-gray-500"
+                      >0</span
+                    ><span class="text-sm text-gray-500 ml-1">px</span>
+                  </div>
+                  <input
+                    type="range"
+                    id="borderRadius"
+                    min="0"
+                    max="50"
+                    value="0"
+                    class="w-full accent-lime-400"
+                  />
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label
+                  for="borderColor"
+                  class="block text-sm font-medium text-gray-700 mb-1"
+                  >Border Color</label
+                >
+                <input
+                  type="color"
+                  id="borderColor"
+                  value="#000000"
+                  class="w-full h-10 p-1 border rounded"
+                />
+              </div>
+
+              <div class="mb-4">
+                <h4 class="text-sm font-medium text-gray-700 mb-2">
+                  Shadow Settings
+                </h4>
+                <div class="flex space-x-4 mb-2">
+                  <label class="text-xs text-gray-600"
+                    ><input type="checkbox" id="shadowEnabled" /> Shadow</label
+                  >
+                  <label class="text-xs text-gray-600"
+                    ><input type="checkbox" id="shadowInset" /> Inset
+                    Shadow</label
+                  >
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <div class="flex justify-between items-center mb-1">
+                      <label for="shadowRight" class="text-xs text-gray-600"
+                        >Shift Right</label
+                      >
+                      <div class="flex items-center">
+                        <span
+                          id="shadowRightValue"
+                          class="text-xs text-gray-500"
+                          >0</span
+                        >
+                        <span class="text-sm text-gray-500 ml-1">px</span>
+                      </div>
+                    </div>
+                    <input
+                      type="range"
+                      id="shadowRight"
+                      min="-50"
+                      max="50"
+                      value="0"
+                      class="w-full accent-lime-400"
+                    />
+                  </div>
+                  <div>
+                    <div class="flex justify-between items-center mb-1">
+                      <label for="shadowDown" class="text-xs text-gray-600"
+                        >Shift Down</label
+                      >
+                      <div class="flex items-center">
+                        <div class="flex items-center">
+                          <span
+                            id="shadowDownValue"
+                            class="text-xs text-gray-500"
+                            >0</span
+                          >
+                          <span class="text-sm text-gray-500 ml-1">px</span>
+                        </div>
+                      </div>
+                    </div>
+                    <input
+                      type="range"
+                      id="shadowDown"
+                      min="-50"
+                      max="50"
+                      value="0"
+                      class="w-full accent-lime-400"
+                    />
+                  </div>
+                  <div>
+                    <div class="flex justify-between items-center mb-1">
+                      <label for="shadowSpread" class="text-xs text-gray-600"
+                        >Spread</label
+                      >
+                      <div class="flex items-center">
+                        <span
+                          id="shadowSpreadValue"
+                          class="text-xs text-gray-500"
+                          >0</span
+                        >
+                        <span class="text-sm text-gray-500 ml-1">px</span>
+                      </div>
+                    </div>
+                    <input
+                      type="range"
+                      id="shadowSpread"
+                      min="0"
+                      max="50"
+                      value="0"
+                      class="w-full accent-lime-400"
+                    />
+                  </div>
+                  <div>
+                    <div class="flex justify-between items-center mb-1">
+                      <label for="shadowBlur" class="text-xs text-gray-600"
+                        >Blur</label
+                      >
+                      <div class="flex items-center">
+                        <span id="shadowBlurValue" class="text-xs text-gray-500"
+                          >0</span
+                        >
+                        <span class="text-sm text-gray-500 ml-1">px</span>
+                      </div>
+                    </div>
+                    <input
+                      type="range"
+                      id="shadowBlur"
+                      min="0"
+                      max="50"
+                      value="0"
+                      class="w-full accent-lime-400"
+                    />
+                  </div>
+                </div>
+                <div class="mt-4">
+                  <div class="flex justify-between items-center mb-1">
+                    <label for="shadowOpacity" class="text-xs text-gray-600"
+                      >Opacity</label
+                    >
+                    <div class="flex items-center">
+                      <span
+                        id="shadowOpacityValue"
+                        class="text-xs text-gray-500"
+                        >100</span
+                      >
+                      <span class="text-sm text-gray-500 ml-1">%</span>
+                    </div>
+                  </div>
+                  <input
+                    type="range"
+                    id="shadowOpacity"
+                    min="0"
+                    max="100"
+                    value="100"
+                    class="w-full accent-lime-400"
+                  />
+                </div>
+                <div class="mt-4">
+                  <label
+                    for="shadowColor"
+                    class="block text-xs text-gray-600 mb-1"
+                    >Shadow Color</label
+                  >
+                  <input
+                    type="color"
+                    id="shadowColor"
+                    value="#000000"
+                    class="w-full h-10 p-1 border rounded"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="helpSection">
+            <div class="p-4 border rounded-lg shadow-sm bg-white">
+              <h3 class="text-lg font-semibold mb-4">Help</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

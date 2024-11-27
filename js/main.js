@@ -1,16 +1,22 @@
-import { state, resetState, addDiv, deleteDiv } from "./state.js";
-import { generateHTML } from "./generateHTML.js";
-import { allElements } from "./htmlElements.js";
+import {
+  state,
+  resetToEmpty,
+  resetToTemplate,
+  addDiv,
+  deleteDiv,
+} from './state.js';
+import { generateHTML } from './generateHTML.js';
+import { allElements } from './htmlElements.js';
 
 function updateSectionSelect() {
-  const selectSection = document.getElementById("sectionSelect");
+  const selectSection = document.getElementById('sectionSelect');
   if (!selectSection) return;
 
   selectSection.innerHTML = `
     <option value="card">Card</option>
     ${Object.entries(state.sections.divs || {})
       .map(([id]) => `<option value="div${id}">Div ${id}</option>`)
-      .join("")}
+      .join('')}
   `;
   selectSection.value = state.selectedSection;
 }
@@ -25,52 +31,56 @@ function initialize() {
   // Basic button handler setup
   const buttonHandlers = {
     sectionSelect: {
-      event: "change",
+      event: 'change',
       handler: function () {
         state.selectedSection = this.value;
       },
     },
     addMiddleButton: {
-      event: "click",
-      setup: (elem) => (elem.textContent = "Add Div"),
+      event: 'click',
+      setup: (elem) => (elem.textContent = 'Add Div'),
       handler: () => addDiv(),
     },
     deleteMiddleButton: {
-      event: "click",
-      setup: (elem) => (elem.textContent = "Delete Div"),
+      event: 'click',
+      setup: (elem) => (elem.textContent = 'Delete Div'),
       handler: () => {
-        if (state.selectedSection.startsWith("div")) {
-          const divId = state.selectedSection.replace("div", "");
+        if (state.selectedSection.startsWith('div')) {
+          const divId = state.selectedSection.replace('div', '');
           deleteDiv(divId);
         }
       },
     },
-    resetButton: {
-      event: "click",
-      handler: () => resetState(),
+    resetButtonToEmpty: {
+      event: 'click',
+      handler: () => resetToEmpty(),
+    },
+    resetButtonToTemplate: {
+      event: 'click',
+      handler: () => resetToTemplate(),
     },
     copyButton: {
-      event: "click",
-      setup: (elem) => (elem.textContent = "Copy HTML"),
+      event: 'click',
+      setup: (elem) => (elem.textContent = 'Copy HTML'),
       handler: function () {
-        const htmlOutput = document.getElementById("htmlOutputSettings");
+        const htmlOutput = document.getElementById('htmlOutputSettings');
         if (!htmlOutput) return;
 
         const copyText = function (text) {
           if (navigator.clipboard && window.isSecureContext) {
             return navigator.clipboard.writeText(text);
           } else {
-            const textArea = document.createElement("textarea");
+            const textArea = document.createElement('textarea');
             textArea.value = text;
-            textArea.style.position = "fixed";
-            textArea.style.left = "-999999px";
-            textArea.style.top = "-999999px";
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
             document.body.appendChild(textArea);
             textArea.focus();
             textArea.select();
 
             try {
-              document.execCommand("copy");
+              document.execCommand('copy');
               textArea.remove();
               return Promise.resolve();
             } catch (error) {
@@ -82,14 +92,14 @@ function initialize() {
 
         copyText(htmlOutput.innerText)
           .then(() => {
-            const button = document.getElementById("copyButton");
-            button.textContent = "Copied!";
+            const button = document.getElementById('copyButton');
+            button.textContent = 'Copied!';
 
             setTimeout(() => {
-              button.textContent = "Copy HTML";
+              button.textContent = 'Copy HTML';
             }, 2000);
           })
-          .catch((err) => console.error("Failed to copy:", err));
+          .catch((err) => console.error('Failed to copy:', err));
       },
     },
   };
@@ -116,17 +126,17 @@ function initialize() {
 
     element.addEventListener(elem.eventType, function () {
       const newValue =
-        elem.inputType === "checkbox" ? this.checked : this.value;
+        elem.inputType === 'checkbox' ? this.checked : this.value;
 
       // Handle state updates based on section type
-      if (state.selectedSection.startsWith("div")) {
+      if (state.selectedSection.startsWith('div')) {
         updateStateValue(
-          state.sections.divs[state.selectedSection.replace("div", "")],
+          state.sections.divs[state.selectedSection.replace('div', '')],
           elem.stateKey,
           newValue,
         );
-      } else if (state.selectedSection === "card") {
-        const isCardDimension = ["widthSlider", "heightSlider"].includes(
+      } else if (state.selectedSection === 'card') {
+        const isCardDimension = ['widthSlider', 'heightSlider'].includes(
           elem.elementID,
         );
 
@@ -144,12 +154,12 @@ function initialize() {
         }
       }
 
-      console.log("elementID: ", elem.elementID);
-      console.log("eventType: ", elem.eventType);
-      console.log("inputType: ", elem.inputType);
-      console.log("stateKey: ", elem.stateKey);
-      console.log("newValue: ", newValue);
-      console.log("state: ", state);
+      console.log('elementID: ', elem.elementID);
+      console.log('eventType: ', elem.eventType);
+      console.log('inputType: ', elem.inputType);
+      console.log('stateKey: ', elem.stateKey);
+      console.log('newValue: ', newValue);
+      console.log('state: ', state);
 
       updateUI();
     });
@@ -168,8 +178,8 @@ function updateStateValue(target, stateKeyPath, value) {
 
 function updateUIElements() {
   let currentSection;
-  if (state.selectedSection.startsWith("div")) {
-    const divId = state.selectedSection.replace("div", "");
+  if (state.selectedSection.startsWith('div')) {
+    const divId = state.selectedSection.replace('div', '');
     currentSection = state.sections.divs[divId];
   } else {
     currentSection = state.sections[state.selectedSection];
@@ -180,7 +190,7 @@ function updateUIElements() {
 
   for (const elem of allElements) {
     const element = document.getElementById(elem.elementID);
-    const elementValue = document.getElementById(elem.elementID + "Value");
+    const elementValue = document.getElementById(elem.elementID + 'Value');
     if (!element) continue;
 
     let sectionValue = currentSection;
@@ -190,8 +200,8 @@ function updateUIElements() {
 
     let value = sectionValue;
     if (
-      (sectionValue === undefined || sectionValue === "") &&
-      state.selectedSection !== "card"
+      (sectionValue === undefined || sectionValue === '') &&
+      state.selectedSection !== 'card'
     ) {
       let cardValue = cardSection;
       for (const key of elem.stateKey) {
@@ -200,31 +210,31 @@ function updateUIElements() {
       value = cardValue;
     }
 
-    if (elem.inputType === "checkbox") {
+    if (elem.inputType === 'checkbox') {
       element.checked = value ?? false;
-    } else if (elem.inputType === "radio") {
+    } else if (elem.inputType === 'radio') {
       element.checked = element.value === value;
     } else {
-      element.value = value ?? "";
+      element.value = value ?? '';
     }
 
     if (elementValue) {
-      elementValue.textContent = value ?? "";
+      elementValue.textContent = value ?? '';
     }
 
     // Disable textarea for card section
-    if (elem.inputType === "textarea") {
-      element.disabled = state.selectedSection === "card";
+    if (elem.inputType === 'textarea') {
+      element.disabled = state.selectedSection === 'card';
     }
 
     // Disable position sliders for card section
-    if (elem.elementID.includes("Position")) {
-      element.disabled = state.selectedSection === "card";
+    if (elem.elementID.includes('Position')) {
+      element.disabled = state.selectedSection === 'card';
     }
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("init");
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('init');
   initialize();
 });
