@@ -2,6 +2,8 @@
 
 A web app that generates customizable HTML cards with different styling options.
 
+![overview](image.png)
+
 ## Core Functions Explained
 
 1. `state.js` - Stores all settings and data
