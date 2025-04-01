@@ -83,3 +83,13 @@ python3 -m http.server 8000
 ```
 
 Then open http://localhost:8000
+
+## License
+
+This project is completely free and open source. You are free to:
+- Use, share, and copy the game for any purpose
+- Modify and adapt the code as you wish
+- Distribute your own versions
+- Use it as a basis for your own projects
+
+No attribution required. No restrictions whatsoever. Enjoy the game and do whatever you want with it!
